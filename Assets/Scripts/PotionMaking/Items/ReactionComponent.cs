@@ -9,6 +9,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     private Action _destroyCallback;
     private PotItem _owner;
     public Vector3 Position => _owner.transform.position;
+    public float Scale => _owner.transform.localScale.x;
 
     [field:SerializeField] public ReactionConfig Config { get; private set; }
 
@@ -23,7 +24,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     
     public void Collide(ReactionComponent other)
     {
-        _configBus.RaiseEvent<ICollisionHandler>(h => h.HandleCollision(this, other));
+        _configBus?.RaiseEvent<ICollisionHandler>(h => h.HandleCollision(this, other));
     }
     
     public void DipIntoWater(Water water)
@@ -35,19 +36,20 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 
     public void HandleTemperatureChanged(float newTemperature)
     {
-        _configBus.RaiseEvent<ITemperatureReactionHandler>(h => h.HandleTemperatureChanged(newTemperature, this));
+        _configBus?.RaiseEvent<ITemperatureReactionHandler>(h => h.HandleTemperatureChanged(newTemperature, this));
     }
 
     public void Destroy()
     {
-        _waterBus.Unsubscribe(this);
+        _waterBus?.Unsubscribe(this);
         _destroyCallback?.Invoke();
     }
 }
 
 public interface IReactionPart
 {
-    public void Init(PotItem owner, Action destroyCallback);
-    public void Destroy();
     public Vector3 Position { get; }
+    public float Scale { get; }
+
+    public void Destroy();
 }

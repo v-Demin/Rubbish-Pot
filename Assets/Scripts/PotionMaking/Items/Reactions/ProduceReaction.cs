@@ -12,11 +12,28 @@ public class ProduceReaction : AbstractReaction
         {
             for (var i = 0; i < info.NumberOfItems; i++)
             {
-                var item = GameObject.Instantiate(info.Item);
-                item.transform.localScale = Vector3.one * info.Scale;
-                item.transform.position = target.Position + ((Vector3)Random.insideUnitCircle * 0.1f);
+                var item = Object.Instantiate(info.Item);
+                item.transform.localScale = GetScaleVector(info.Scale);
+                item.transform.position = GetPosition(target);
+                item.transform.rotation = GetRotation();
             }
         }
+    }
+
+    private Vector3 GetScaleVector(float scale)
+    {
+        return Vector3.one * scale;
+    }
+
+    private Vector3 GetPosition(IReactionPart target)
+    {
+        return target.Position + (Vector3)Random.insideUnitCircle * target.Scale;
+    }
+    
+    private Quaternion GetRotation()
+    {
+        var z = Random.Range(0f, 360f);
+        return Quaternion.Euler(new Vector3(0f, 0f, z));
     }
     
     [System.Serializable]

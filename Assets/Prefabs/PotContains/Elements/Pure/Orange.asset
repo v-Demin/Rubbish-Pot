@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96f573ca87c9eb4d884abff60eca5be, type: 3}
   m_Name: Orange
   m_EditorClassIdentifier: 
-  _reactions: []
+  _reactions:
+  - _condition:
+      rid: 9083260681024700519
+    _reactions:
+    - rid: 9083260681024700520
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 9083260681024700519
+      type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
+      data:
+        _lowerTemperature: 30.6
+        _higherTemperature: 100
+    - rid: 9083260681024700520
+      type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
+      data: 
