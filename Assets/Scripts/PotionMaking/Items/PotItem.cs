@@ -6,7 +6,7 @@ public class PotItem : MonoBehaviour
 
     private void Start()
     {
-        _reactionComponent.Init(Destroy);
+        _reactionComponent.Init(this, Destroy);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

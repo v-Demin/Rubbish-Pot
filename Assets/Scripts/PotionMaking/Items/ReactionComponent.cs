@@ -6,13 +6,15 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 {
     private EventBus _configBus;
     private Action _destroyCallback;
-    
+    private PotItem _owner;
+    public Vector3 Position => _owner.transform.position;
+
     [field:SerializeField] public ReactionConfig Config { get; private set; }
 
-    public void Init(Action destroyCallback)
+    public void Init(PotItem owner, Action destroyCallback)
     {
         _configBus = Config.EventBus;
-        
+        _owner = owner;
         _destroyCallback = destroyCallback;
         
         _configBus.RaiseEvent<ISpawnHandler>(h => h.HandleSpawn(this));
@@ -42,6 +44,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 
 public interface IReactionPart
 {
-    public void Init(Action destroyCallback);
+    public void Init(PotItem owner, Action destroyCallback);
     public void Destroy();
+    public Vector3 Position { get; }
 }

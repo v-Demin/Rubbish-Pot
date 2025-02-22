@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.1492307
       objectReference: {fileID: 0}
+    - target: {fileID: 1668272964440907448, guid: f809832b5d6bf94429d433eb3c8133a6, type: 3}
+      propertyPath: _reactionComponent.<Config>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 1695356a867810349930453a7d41b143, type: 2}
     - target: {fileID: 1726111560225534419, guid: f809832b5d6bf94429d433eb3c8133a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
