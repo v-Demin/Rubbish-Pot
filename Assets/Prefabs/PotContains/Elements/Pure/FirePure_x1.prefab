@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3921580115007883134, guid: 74c926593b967cd46a2c442beeec21ef, type: 3}
       propertyPath: m_Name
-      value: _basePure Variant
+      value: FirePure_x1
       objectReference: {fileID: 0}
     - target: {fileID: 4643278794609490834, guid: 74c926593b967cd46a2c442beeec21ef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4657488700284736761, guid: 74c926593b967cd46a2c442beeec21ef, type: 3}
+      propertyPath: _reactionComponent.<Config>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 9984bc4c7a31b254da704d2232a4e375, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

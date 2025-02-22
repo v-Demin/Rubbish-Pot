@@ -1,15 +1,20 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
-public class ReactionComponent : ITemperatureHandler
+public class ReactionComponent : IReactionPart, ITemperatureHandler
 {
     private EventBus _configBus;
+    private Action _destroyCallback;
     
     [field:SerializeField] public ReactionConfig Config { get; private set; }
 
-    public void Init()
+    public void Init(Action destroyCallback)
     {
         _configBus = Config.EventBus;
+        
+        _destroyCallback = destroyCallback;
+        
         _configBus.RaiseEvent<ISpawnHandler>(h => h.HandleSpawn(this));
     }
     
@@ -28,4 +33,15 @@ public class ReactionComponent : ITemperatureHandler
     {
         _configBus.RaiseEvent<ITemperatureReactionHandler>(h => h.HandleTemperatureChanged(newTemperature, this));
     }
+
+    public void Destroy()
+    {
+        _destroyCallback?.Invoke();
+    }
+}
+
+public interface IReactionPart
+{
+    public void Init(Action destroyCallback);
+    public void Destroy();
 }

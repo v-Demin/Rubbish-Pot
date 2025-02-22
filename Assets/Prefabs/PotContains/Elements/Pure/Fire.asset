@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c96f573ca87c9eb4d884abff60eca5be, type: 3}
-  m_Name: LeafConfig
+  m_Name: Fire
   m_EditorClassIdentifier: 
   _reactions:
   - _condition:
-      rid: 9083260681024700498
+      rid: 9083260681024700500
     _reactions:
-    - rid: 9083260681024700496
+    - rid: 9083260681024700502
   references:
     version: 2
     RefIds:
-    - rid: 9083260681024700496
-      type: {class: DebugReaction, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 9083260681024700498
-      type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
+    - rid: 9083260681024700500
+      type: {class: CollisionCondition, ns: , asm: Assembly-CSharp}
       data:
-        _lowerTemperature: 80
-        _higherTemperature: 100
+        _collisionConfigToReact: {fileID: 11400000, guid: 60977397d2b91274d89976c74d9acbc0, type: 2}
+    - rid: 9083260681024700502
+      type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
+      data: 

@@ -6,7 +6,7 @@ public class PotItem : MonoBehaviour
 
     private void Start()
     {
-        _reactionComponent.Init();
+        _reactionComponent.Init(Destroy);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -23,5 +23,10 @@ public class PotItem : MonoBehaviour
         {
             _reactionComponent.DipIntoWater(water);
         }
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
