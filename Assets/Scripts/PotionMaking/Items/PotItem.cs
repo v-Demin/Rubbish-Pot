@@ -19,6 +19,9 @@ public class PotItem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.gameObject.TryGetComponent<Water>(out var water))
+        {
+            _reactionComponent.DipIntoWater(water);
+        }
     }
 }

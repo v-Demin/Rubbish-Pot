@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reactions:
   - _condition:
-      rid: 9083260681024700497
+      rid: 9083260681024700498
     _reactions:
     - rid: 9083260681024700496
   references:
@@ -23,6 +23,8 @@ MonoBehaviour:
     - rid: 9083260681024700496
       type: {class: DebugReaction, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 9083260681024700497
-      type: {class: SpawnedCondition, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 9083260681024700498
+      type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
+      data:
+        _lowerTemperature: 80
+        _higherTemperature: 100

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class ReactionComponent
+public class ReactionComponent : ITemperatureHandler
 {
     private EventBus _configBus;
     
@@ -16,5 +16,16 @@ public class ReactionComponent
     public void Collide(ReactionComponent other)
     {
         _configBus.RaiseEvent<ICollisionHandler>(h => h.HandleCollision(this, other));
+    }
+    
+    public void DipIntoWater(Water water)
+    {
+        water.EventBus.Subscribe(this);
+        HandleTemperatureChanged(water.Temperature);
+    }
+
+    public void HandleTemperatureChanged(float newTemperature)
+    {
+        _configBus.RaiseEvent<ITemperatureReactionHandler>(h => h.HandleTemperatureChanged(newTemperature, this));
     }
 }
