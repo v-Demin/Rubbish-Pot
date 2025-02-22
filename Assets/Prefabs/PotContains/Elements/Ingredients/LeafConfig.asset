@@ -14,16 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reactions:
   - _condition:
-      rid: 9083260681024700494
+      rid: 9083260681024700497
     _reactions:
-    - rid: 9083260681024700491
+    - rid: 9083260681024700496
   references:
     version: 2
     RefIds:
-    - rid: 9083260681024700491
-      type: {class: ReactionConfig/DebugReaction, ns: , asm: Assembly-CSharp}
+    - rid: 9083260681024700496
+      type: {class: DebugReaction, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 9083260681024700494
-      type: {class: ReactionConfig/CollisionCondition, ns: , asm: Assembly-CSharp}
-      data:
-        _collisionConfigToReact: {fileID: 11400000}
+    - rid: 9083260681024700497
+      type: {class: SpawnedCondition, ns: , asm: Assembly-CSharp}
+      data: 

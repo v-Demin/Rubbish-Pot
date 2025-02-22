@@ -10,11 +10,11 @@ public class ReactionComponent
     public void Init()
     {
         _configBus = Config.EventBus;
-        _configBus.RaiseEvent<ReactionConfig.ISpawnHandler>(h => h.HandleSpawn(this));
+        _configBus.RaiseEvent<ISpawnHandler>(h => h.HandleSpawn(this));
     }
     
     public void Collide(ReactionComponent other)
     {
-        _configBus.RaiseEvent<ReactionConfig.ICollisionHandler>(h => h.HandleCollision(this, other));
+        _configBus.RaiseEvent<ICollisionHandler>(h => h.HandleCollision(this, other));
     }
 }
