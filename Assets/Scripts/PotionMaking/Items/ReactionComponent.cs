@@ -5,6 +5,7 @@ using UnityEngine;
 public class ReactionComponent : IReactionPart, ITemperatureHandler
 {
     private EventBus _configBus;
+    private EventBus _waterBus;
     private Action _destroyCallback;
     private PotItem _owner;
     public Vector3 Position => _owner.transform.position;
@@ -27,7 +28,8 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     
     public void DipIntoWater(Water water)
     {
-        water.EventBus.Subscribe(this);
+        _waterBus = water.EventBus;
+        _waterBus.Subscribe(this);
         HandleTemperatureChanged(water.Temperature);
     }
 
@@ -38,6 +40,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 
     public void Destroy()
     {
+        _waterBus.Unsubscribe(this);
         _destroyCallback?.Invoke();
     }
 }

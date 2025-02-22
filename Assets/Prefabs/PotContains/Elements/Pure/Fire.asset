@@ -16,19 +16,29 @@ MonoBehaviour:
   - _condition:
       rid: 9083260681024700515
     _reactions:
-    - rid: 9083260681024700514
+    - rid: 9083260681024700516
   references:
     version: 2
     RefIds:
-    - rid: 9083260681024700514
-      type: {class: ProduceReaction, ns: , asm: Assembly-CSharp}
-      data:
-        _infos:
-        - Item: {fileID: 5680107857395089246, guid: f153a44ca982b594498ec9a8c8bd6bde, type: 3}
-          NumberOfItems: 1
-          Scale: 0.1
     - rid: 9083260681024700515
       type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
       data:
         _lowerTemperature: 85
         _higherTemperature: 100
+    - rid: 9083260681024700516
+      type: {class: TransformationReaction, ns: , asm: Assembly-CSharp}
+      data:
+        _produceReaction:
+          rid: 9083260681024700517
+        _destroyReaction:
+          rid: 9083260681024700518
+    - rid: 9083260681024700517
+      type: {class: ProduceReaction, ns: , asm: Assembly-CSharp}
+      data:
+        _infos:
+        - Item: {fileID: 5680107857395089246, guid: f153a44ca982b594498ec9a8c8bd6bde, type: 3}
+          NumberOfItems: 4
+          Scale: 0.3
+    - rid: 9083260681024700518
+      type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
+      data: 
