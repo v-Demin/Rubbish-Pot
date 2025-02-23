@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reactions:
   - _condition:
-      rid: 9083260681024700522
+      rid: 9083260681024700523
     _reactions:
     - rid: 9083260681024700516
   references:
@@ -32,11 +32,13 @@ MonoBehaviour:
       data:
         _infos:
         - Item: {fileID: 5680107857395089246, guid: f153a44ca982b594498ec9a8c8bd6bde, type: 3}
-          NumberOfItems: 4
+          NumberOfItems: 6
           Scale: 0.3
     - rid: 9083260681024700518
       type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 9083260681024700522
-      type: {class: SpawnedCondition, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 9083260681024700523
+      type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
+      data:
+        _lowerTemperature: 16.3
+        _higherTemperature: 36.4

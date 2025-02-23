@@ -27,6 +27,11 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
         _configBus?.RaiseEvent<ICollisionHandler>(h => h.HandleCollision(this, other));
     }
     
+    public void Collide(Spoon other)
+    {
+        _configBus?.RaiseEvent<IMixingHandler>(h => h.HandleBeingMixed(this));
+    }
+    
     public void DipIntoWater(Water water)
     {
         _waterBus = water.EventBus;

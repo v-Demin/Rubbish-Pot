@@ -14,6 +14,12 @@ public class PotItem : MonoBehaviour
         if (other.gameObject.TryGetComponent<PotItem>(out var item))
         {
             _reactionComponent.Collide(item._reactionComponent);
+            return;
+        }
+        
+        if (other.gameObject.TryGetComponent<Spoon>(out var spoon))
+        {
+            _reactionComponent.Collide(spoon);
         }
     }
 
