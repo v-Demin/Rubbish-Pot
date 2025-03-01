@@ -3,9 +3,21 @@ using UnityEngine;
 public class PotItem : MonoBehaviour
 {
     [SerializeField] private ReactionComponent _reactionComponent;
+    [SerializeField] private float _initialVolume;
+    private float _currentVolume;
+    public float Volume
+    {
+        get => _currentVolume;
+        set
+        {
+            transform.localScale = new Vector3(value, value, 1f);
+            _currentVolume = value;
+        }
+    }
 
     private void Start()
     {
+        Volume = _initialVolume;
         _reactionComponent.Init(this, Destroy);
     }
 

@@ -9,7 +9,12 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     private Action _destroyCallback;
     private PotItem _owner;
     public Vector3 Position => _owner.transform.position;
-    public float Scale => _owner.transform.localScale.x;
+
+    public float Volume
+    {
+        get => _owner.Volume;
+        set => _owner.Volume = value;
+    }
 
     [field:SerializeField] public ReactionConfig Config { get; private set; }
 
@@ -54,7 +59,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 public interface IReactionPart
 {
     public Vector3 Position { get; }
-    public float Scale { get; }
+    public float Volume { get; set; }
 
     public void Destroy();
 }

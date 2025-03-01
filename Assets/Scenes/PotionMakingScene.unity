@@ -1345,67 +1345,6 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
   m_MaskSource: 0
---- !u!1001 &1500206104
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.016
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 338121886079842219, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8263328169375320903, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_Name
-      value: BagOfPixieDust
-      objectReference: {fileID: 0}
-    - target: {fileID: 8263328169375320903, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6d76c7191e8ee474ba06e3468516f069, type: 3}
 --- !u!1 &1524731855
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,6 +2054,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 316312099930347712, guid: 51367e06d1886b3428626fcd64e9c143, type: 3}
+      propertyPath: _initialVolume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 338121886079842219, guid: 51367e06d1886b3428626fcd64e9c143, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.115
@@ -2664,4 +2607,3 @@ SceneRoots:
   - {fileID: 853387676}
   - {fileID: 494498020}
   - {fileID: 1824238092}
-  - {fileID: 1500206104}

@@ -29,7 +29,7 @@ public class ProduceReaction : AbstractReaction
 
     private Vector3 GetPosition(IReactionPart target)
     {
-        return target.Position + (Vector3)Random.insideUnitCircle * target.Scale;
+        return target.Position + (Vector3)Random.insideUnitCircle * target.Volume;
     }
     
     private Quaternion GetRotation()

@@ -10,9 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c96f573ca87c9eb4d884abff60eca5be, type: 3}
-  m_Name: Blue
+  m_Name: Leaf
   m_EditorClassIdentifier: 
-  _reactions: []
+  _reactions:
+  - _condition:
+      rid: 8077314813079584769
+    _reactions:
+    - rid: 8077314813079584770
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8077314813079584769
+      type: {class: SpawnedCondition, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8077314813079584770
+      type: {class: DebugReaction, ns: , asm: Assembly-CSharp}
+      data:
+        _message: 1
