@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 [CustomPropertyDrawer(typeof(SubclassSelectorAttribute))]
 public class SubclassSelectorDrawer : PropertyDrawer
@@ -13,15 +14,11 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        // Базовая высота – одна строка для выпадающего списка
         float height = EditorGUIUtility.singleLineHeight;
-
-        // Если значение не null и раскрыто, добавляем высоту для остальных полей
         if (property.managedReferenceValue != null && property.isExpanded)
         {
             height += EditorGUI.GetPropertyHeight(property, label, true);
         }
-
         return height;
     }
 
@@ -41,14 +38,14 @@ public class SubclassSelectorDrawer : PropertyDrawer
         // Отрисовка лейбла
         EditorGUI.LabelField(new Rect(dropdownRect.x + 15, dropdownRect.y, dropdownRect.width - 15, dropdownRect.height), label);
 
-        // Определяем базовый тип. Если поле — список, то берём тип элементов
+        // Определяем базовый тип. Если поле – список, берём тип элементов
         Type baseType = fieldInfo.FieldType;
         if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == typeof(List<>))
         {
             baseType = baseType.GetGenericArguments()[0];
         }
 
-        // Рисуем выпадающий список типов с возможностью сброса через "None"
+        // Рисуем выпадающий список с учетом фильтрации
         DrawTypePopup(new Rect(dropdownRect.x + 80, dropdownRect.y, dropdownRect.width - 80, dropdownRect.height), property, baseType);
 
         // Кнопка для очистки поля
@@ -57,7 +54,7 @@ public class SubclassSelectorDrawer : PropertyDrawer
             property.managedReferenceValue = null;
         }
 
-        // Если объект выбран и раскрыт – отрисовываем инспектор для его полей
+        // Если значение не null и раскрыто — отрисовываем инспектор выбранного объекта
         if (property.managedReferenceValue != null && property.isExpanded)
         {
             Rect childRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight,
@@ -72,11 +69,15 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
     private void DrawTypePopup(Rect rect, SerializedProperty property, Type baseType)
     {
-        // Получаем список типов-наследников для данного базового типа (с кэшированием)
+        // Получаем экземпляр нашего атрибута
+        SubclassSelectorAttribute subclassAttr = attribute as SubclassSelectorAttribute;
+
+        // Получаем список типов-наследников для базового типа (с кэшированием)
         if (!typesCache.TryGetValue(baseType, out Type[] types))
         {
             types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => {
+                .SelectMany(a =>
+                {
                     try { return a.GetTypes(); } catch { return new Type[0]; }
                 })
                 .Where(t => !t.IsAbstract && baseType.IsAssignableFrom(t))
@@ -85,7 +86,27 @@ public class SubclassSelectorDrawer : PropertyDrawer
             typeNamesCache[baseType] = types.Select(t => t.Name).ToArray();
         }
 
-        // Добавляем опцию "None" для возможности сброса значения
+        // Если задан метод-фильтр, получаем родительский объект (например, StepRoot)
+        if (!string.IsNullOrEmpty(subclassAttr.FilterMethodName))
+        {
+            object parent = GetParentObject(property);
+            if (parent != null)
+            {
+                MethodInfo methodInfo = parent.GetType().GetMethod(subclassAttr.FilterMethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (methodInfo != null)
+                {
+                    types = types.Where(t =>
+                    {
+                        object instance = Activator.CreateInstance(t);
+                        object result = methodInfo.Invoke(parent, new object[] { instance });
+                        return result is bool b && b;
+                    }).ToArray();
+                    typeNamesCache[baseType] = types.Select(t => t.Name).ToArray();
+                }
+            }
+        }
+
+        // Добавляем опцию "None" для сброса значения
         string[] options = new string[typeNamesCache[baseType].Length + 1];
         options[0] = "None";
         for (int i = 0; i < typeNamesCache[baseType].Length; i++)
@@ -93,21 +114,16 @@ public class SubclassSelectorDrawer : PropertyDrawer
             options[i + 1] = typeNamesCache[baseType][i];
         }
 
-        // Определяем выбранный индекс: если значение null – выбираем "None"
         int currentIndex = 0;
         if (property.managedReferenceValue != null)
         {
             Type currentType = property.managedReferenceValue.GetType();
             int foundIndex = Array.IndexOf(types, currentType);
             if (foundIndex >= 0)
-            {
-                currentIndex = foundIndex + 1; // +1, т.к. 0 - это "None"
-            }
+                currentIndex = foundIndex + 1; // +1, т.к. 0 соответствует "None"
         }
 
         int newIndex = EditorGUI.Popup(rect, currentIndex, options);
-
-        // Если выбор изменился, устанавливаем новое значение через Activator
         if (newIndex != currentIndex)
         {
             if (newIndex == 0)
@@ -119,6 +135,55 @@ public class SubclassSelectorDrawer : PropertyDrawer
                 property.managedReferenceValue = Activator.CreateInstance(types[newIndex - 1]);
             }
         }
+    }
+
+    /// <summary>
+    /// Получает объект, в котором находится поле, используя propertyPath.
+    /// </summary>
+    private object GetParentObject(SerializedProperty property)
+    {
+        string path = property.propertyPath.Replace(".Array.data[", "[");
+        object obj = property.serializedObject.targetObject;
+        string[] elements = path.Split('.');
+        // Последний элемент — само поле, его пропускаем
+        for (int i = 0; i < elements.Length - 1; i++)
+        {
+            string element = elements[i];
+            if (element.Contains("["))
+            {
+                string elementName = element.Substring(0, element.IndexOf("["));
+                int index = Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+                obj = GetValue(obj, elementName, index);
+            }
+            else
+            {
+                obj = GetValue(obj, element);
+            }
+        }
+        return obj;
+    }
+
+    private object GetValue(object source, string name)
+    {
+        if (source == null)
+            return null;
+        Type type = source.GetType();
+        FieldInfo field = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        return field != null ? field.GetValue(source) : null;
+    }
+
+    private object GetValue(object source, string name, int index)
+    {
+        var enumerable = GetValue(source, name) as System.Collections.IEnumerable;
+        if (enumerable == null)
+            return null;
+        var enm = enumerable.GetEnumerator();
+        for (int i = 0; i <= index; i++)
+        {
+            if (!enm.MoveNext())
+                return null;
+        }
+        return enm.Current;
     }
 }
 #endif

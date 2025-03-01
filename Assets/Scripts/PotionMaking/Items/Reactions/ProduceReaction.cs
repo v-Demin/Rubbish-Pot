@@ -5,7 +5,9 @@ using UnityEngine;
 public class ProduceReaction : AbstractReaction
 {
     [SerializeField] private List<TransformationInfo> _infos;
-    
+
+    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Ambivalent;
+
     public override void Execute(IReactionPart target)
     {
         foreach (var info in _infos)

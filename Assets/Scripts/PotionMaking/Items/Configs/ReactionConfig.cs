@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ReactionsConfig", menuName = "Reactions/Config")]
@@ -26,13 +27,34 @@ public partial class ReactionConfig : ScriptableObject
     [System.Serializable]
     private class ReactionRecord
     {
-        [SerializeReference] [SubclassSelector] private AbstractCondition _condition;
-        [SerializeReference] [SubclassSelector] private List<AbstractReaction> _reactions;
+        [SerializeReference] [SubclassSelector] [OnValueChanged(nameof(ValidateCondition))] private AbstractCondition _condition;
+        [SerializeReference] [SubclassSelector(nameof(ReactionFilter))] private List<AbstractReaction> _reactions;
 
         public void Init(EventBus eventBus)
         {
             eventBus.Subscribe(_condition);
             _condition.OnConditionReached += ConditionReached;
+        }
+
+        private void ValidateCondition()
+        {
+            if(_condition.Connection == IConnectinable.ConnectionType.Solo)
+                _reactions.RemoveAll(r => r.Connection == IConnectinable.ConnectionType.Duo);
+        }
+
+        private bool ReactionFilter(AbstractReaction reaction)
+        {
+            if (_condition.Connection == IConnectinable.ConnectionType.Ambivalent)
+            {
+                return true;
+            }
+            
+            if (reaction.Connection == IConnectinable.ConnectionType.Ambivalent)
+            {
+                return true;
+            }
+
+            return _condition.Connection == reaction.Connection;
         }
         
         public void Stop(EventBus eventBus)

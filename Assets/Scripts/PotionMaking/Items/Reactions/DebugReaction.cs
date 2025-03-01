@@ -2,8 +2,12 @@
 
 public class DebugReaction : AbstractReaction
 {
+    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Ambivalent;
+
+    [SerializeField] private string _message;
+
     public override void Execute(IReactionPart target)
     {
-        "Debug successful, condition works fine".Log(Color.green);
+        _message.Log(Color.green);
     }
 }

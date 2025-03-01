@@ -1,7 +1,9 @@
-﻿    public class SpawnedCondition : AbstractCondition, ISpawnHandler
+﻿public class SpawnedCondition : AbstractCondition, ISpawnHandler
+{
+    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
+
+    public void HandleSpawn(ReactionComponent target)
     {
-        public void HandleSpawn(ReactionComponent target)
-        {
-            ConditionReached(target);
-        }
+        ConditionReached(target);
     }
+}

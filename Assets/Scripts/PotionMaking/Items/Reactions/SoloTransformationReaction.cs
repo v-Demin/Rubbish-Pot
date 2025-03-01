@@ -1,11 +1,13 @@
 using UnityEngine;
 
 [System.Serializable]
-public class TransformationReaction : AbstractReaction
+public class SoloTransformationReaction : AbstractReaction
 {
     [SerializeReference] private AbstractReaction _produceReaction = new ProduceReaction();
     [SerializeReference] private AbstractReaction _destroyReaction = new DestroyReaction();
-    
+
+    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
+
     public override void Execute(IReactionPart target)
     {
         _produceReaction.Execute(target);

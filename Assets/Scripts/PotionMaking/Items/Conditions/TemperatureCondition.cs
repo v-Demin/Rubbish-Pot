@@ -4,6 +4,7 @@ public class TemperatureCondition : AbstractCondition, ITemperatureReactionHandl
 {
     [Range(Water.MIN_TEMPERATURE, Water.MAX_TEMPERATURE)] [SerializeField] private float _lowerTemperature = Water.MIN_TEMPERATURE;
     [Range(Water.MIN_TEMPERATURE, Water.MAX_TEMPERATURE)] [SerializeField] private float _higherTemperature = Water.MAX_TEMPERATURE;
+    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
 
     public void HandleTemperatureChanged(float newTemperature, ReactionComponent component)
     {

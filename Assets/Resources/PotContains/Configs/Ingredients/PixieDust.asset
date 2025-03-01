@@ -14,42 +14,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reactions:
   - _condition:
-      rid: 9083260703287803984
+      rid: 8077314807478091850
     _reactions:
-    - rid: 9083260703287803985
+    - rid: 8077314807478091848
   - _condition:
       rid: 9083260703287803986
     _reactions:
-    - rid: 9083260703287803987
+    - rid: 8077314807478091835
   references:
     version: 2
     RefIds:
-    - rid: 9083260703287803984
-      type: {class: CollisionCondition, ns: , asm: Assembly-CSharp}
+    - rid: 8077314807478091835
+      type: {class: SoloTransformationReaction, ns: , asm: Assembly-CSharp}
       data:
-        _collisionConfigToReact: {fileID: 11400000, guid: 5ddc6e441a633124ea9aa960ac543ad9, type: 2}
-    - rid: 9083260703287803985
+        _produceReaction:
+          rid: 8077314807478091836
+        _destroyReaction:
+          rid: 8077314807478091837
+    - rid: 8077314807478091836
+      type: {class: ProduceReaction, ns: , asm: Assembly-CSharp}
+      data:
+        _infos:
+        - Item: {fileID: 0}
+          NumberOfItems: 0
+          Scale: 0
+        - Item: {fileID: 0}
+          NumberOfItems: 0
+          Scale: 0
+        - Item: {fileID: 0}
+          NumberOfItems: 0
+          Scale: 0
+    - rid: 8077314807478091837
       type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 8077314807478091848
+      type: {class: DebugReaction, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8077314807478091850
+      type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
+      data:
+        _lowerTemperature: 5
+        _higherTemperature: 100
     - rid: 9083260703287803986
       type: {class: TemperatureCondition, ns: , asm: Assembly-CSharp}
       data:
         _lowerTemperature: 90
         _higherTemperature: 100
-    - rid: 9083260703287803987
-      type: {class: TransformationReaction, ns: , asm: Assembly-CSharp}
-      data:
-        _produceReaction:
-          rid: 9083260703287803988
-        _destroyReaction:
-          rid: 9083260703287803989
-    - rid: 9083260703287803988
-      type: {class: ProduceReaction, ns: , asm: Assembly-CSharp}
-      data:
-        _infos:
-        - Item: {fileID: 8007392195205479500, guid: 125ccd8bb2cff6f4181995a329b08036, type: 3}
-          NumberOfItems: 1
-          Scale: 0.2
-    - rid: 9083260703287803989
-      type: {class: DestroyReaction, ns: , asm: Assembly-CSharp}
-      data: 
