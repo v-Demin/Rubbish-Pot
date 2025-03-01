@@ -1,4 +1,4 @@
 ﻿public interface ISpawnHandler : ISubscriber
 {
-    public void HandleSpawn(ReactionComponent target);
+    public void HandleSpawn(IReactionPart target);
 }

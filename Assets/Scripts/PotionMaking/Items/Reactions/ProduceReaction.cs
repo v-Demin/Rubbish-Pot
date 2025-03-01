@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ProduceReaction : AbstractReaction
+public class ProduceReaction : SoloReaction
 {
     [SerializeField] private List<TransformationInfo> _infos;
-
-    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Ambivalent;
 
     public override void Execute(IReactionPart target)
     {

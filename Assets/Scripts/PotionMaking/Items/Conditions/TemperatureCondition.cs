@@ -6,11 +6,11 @@ public class TemperatureCondition : AbstractCondition, ITemperatureReactionHandl
     [Range(Water.MIN_TEMPERATURE, Water.MAX_TEMPERATURE)] [SerializeField] private float _higherTemperature = Water.MAX_TEMPERATURE;
     public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
 
-    public void HandleTemperatureChanged(float newTemperature, ReactionComponent component)
+    public void HandleTemperatureChanged(float newTemperature, IReactionPart target)
     {
-        if (newTemperature >= _lowerTemperature && newTemperature <= _higherTemperature)
-        {
-            ConditionReached(component);
-        }
+        if (!(newTemperature >= _lowerTemperature) || !(newTemperature <= _higherTemperature)) return;
+        
+        EventBus.RaiseEvent<IAmbivalentConditionReachedHandler>(h => h.HandleConditionReached());
+        EventBus.RaiseEvent<ISoloConditionReachedHandler>(h => h.HandleConditionReached(target));
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
-
+﻿[System.Serializable]
 public abstract class AbstractCondition : ISubscriber, IConnectinable
 {
-    public event Action<ReactionComponent> OnConditionReached;
+    protected EventBus EventBus;
     public abstract IConnectinable.ConnectionType Connection { get; }
 
-    protected void ConditionReached(ReactionComponent target)
+    public void Init(EventBus eventBus)
     {
-        OnConditionReached?.Invoke(target);
+        EventBus = eventBus;
     }
 }

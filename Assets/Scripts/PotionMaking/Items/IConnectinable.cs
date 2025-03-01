@@ -4,8 +4,8 @@ public interface IConnectinable
     
     public enum ConnectionType
     {
-        Ambivalent = 0,
-        Solo = 1,
-        Duo = 2,
+        Ambivalent = 10,
+        Solo = 20,
+        Duo = 30,
     }
 }

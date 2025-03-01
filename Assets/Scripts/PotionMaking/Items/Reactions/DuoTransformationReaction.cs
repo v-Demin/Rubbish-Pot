@@ -1,16 +1,8 @@
-using UnityEngine;
-
 [System.Serializable]
-public class DuoTransformationReaction : AbstractReaction
+public class DuoTransformationReaction : DuoReaction
 {
-    [SerializeReference] private AbstractReaction _produceReaction = new ProduceReaction();
-    [SerializeReference] private AbstractReaction _destroyReaction = new DestroyReaction();
-
-    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Duo;
-
-    public override void Execute(IReactionPart target)
+    public override void Execute(IReactionPart target, IReactionPart other)
     {
-        _produceReaction.Execute(target);
-        _destroyReaction.Execute(target);
+        
     }
 }

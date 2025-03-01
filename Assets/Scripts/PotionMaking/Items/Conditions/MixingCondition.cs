@@ -2,9 +2,9 @@ public class MixingCondition : AbstractCondition, IMixingHandler
 {
     public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
 
-    public void HandleBeingMixed(ReactionComponent component)
+    public void HandleBeingMixed(IReactionPart target)
     {
-        ConditionReached(component);
+        EventBus.RaiseEvent<IAmbivalentConditionReachedHandler>(h => h.HandleConditionReached());
+        EventBus.RaiseEvent<ISoloConditionReachedHandler>(h => h.HandleConditionReached(target));
     }
-
 }

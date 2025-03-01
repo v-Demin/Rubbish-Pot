@@ -1,8 +1,6 @@
 [System.Serializable]
-public class DestroyReaction : AbstractReaction
+public class DestroyReaction : SoloReaction
 {
-    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Ambivalent;
-
     public override void Execute(IReactionPart target)
     {
         target.Destroy();

@@ -1,4 +1,4 @@
 public interface IMixingHandler : ISubscriber
 {
-    public void HandleBeingMixed(ReactionComponent component);
+    public void HandleBeingMixed(IReactionPart component);
 }

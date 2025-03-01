@@ -1,11 +1,9 @@
 using UnityEngine;
 
 [System.Serializable]
-public class VolumeMultiplyReaction : AbstractReaction
+public class VolumeMultiplyReaction : SoloReaction, ISoloConditionReachedHandler
 {
     [SerializeField] private float _volumeMultiplier = 1f;
-    
-    public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
     
     public override void Execute(IReactionPart target)
     {

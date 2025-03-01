@@ -2,8 +2,9 @@
 {
     public override IConnectinable.ConnectionType Connection => IConnectinable.ConnectionType.Solo;
 
-    public void HandleSpawn(ReactionComponent target)
+    public void HandleSpawn(IReactionPart target)
     {
-        ConditionReached(target);
+        EventBus.RaiseEvent<IAmbivalentConditionReachedHandler>(h => h.HandleConditionReached());
+        EventBus.RaiseEvent<ISoloConditionReachedHandler>(h => h.HandleConditionReached(target));
     }
 }
