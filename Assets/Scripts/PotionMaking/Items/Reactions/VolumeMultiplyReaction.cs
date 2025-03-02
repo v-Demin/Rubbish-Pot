@@ -1,17 +1,19 @@
 using UnityEngine;
 
 [System.Serializable]
-public class VolumeMultiplyReaction : SoloReaction, ISoloConditionReachedHandler
+public class VolumeMultiplyReaction : SoloReaction
 {
+    //[Todo]: переделать на set, add и multiply подповедения
+    
     [SerializeField] private float _volumeMultiplier = 1f;
     
     public override void Execute(IReactionPart target)
     {
-        ManualExecute(target, _volumeMultiplier);
+        ManuallySet(target, target.Volume * _volumeMultiplier);
     }
     
-    public void ManualExecute(IReactionPart target, float multiplier)
+    public void ManuallySet(IReactionPart target, float scale)
     {
-        target.Volume *= multiplier;
+        target.Volume = scale;
     }
 }

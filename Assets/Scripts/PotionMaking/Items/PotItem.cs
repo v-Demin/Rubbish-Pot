@@ -4,20 +4,36 @@ public class PotItem : MonoBehaviour
 {
     [SerializeField] private ReactionComponent _reactionComponent;
     [SerializeField] private float _initialVolume;
+    private Vector3 _initialScale;
     private float _currentVolume;
+
+    private bool _initialized = false;
+    
+    public IReactionPart ReactionPart => _reactionComponent;
+    
     public float Volume
     {
         get => _currentVolume;
         set
         {
-            transform.localScale = new Vector3(value, value, 1f);
+            transform.localScale = new Vector3(_initialScale.x * value, _initialScale.y * value, 1f);
             _currentVolume = value;
         }
     }
 
     private void Start()
     {
-        Volume = _initialVolume;
+        Init();
+    }
+
+    public void Init()
+    {
+        if (_initialized) return;
+
+        _initialized = true;
+        
+        _initialScale = transform.localScale * _initialVolume;
+        _currentVolume = _initialVolume;
         _reactionComponent.Init(this, Destroy);
     }
 

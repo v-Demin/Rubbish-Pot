@@ -355,9 +355,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8916213548641138856, guid: 1cd36f49b3686444b8252989a7b397f8, type: 3}
+      propertyPath: _initialVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916213548641138856, guid: 1cd36f49b3686444b8252989a7b397f8, type: 3}
       propertyPath: _reactionComponent.<Config>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: c9fa31aabd18edf48bf2f2618fb8ece5, type: 2}
+      objectReference: {fileID: 11400000, guid: 3c5bbb27d081d324bae2e2fe45dd9bda, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

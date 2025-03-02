@@ -5,18 +5,35 @@ using UnityEngine;
 public class ProduceReaction : SoloReaction
 {
     [SerializeField] private List<TransformationInfo> _infos;
+    [SerializeReference] private VolumeMultiplyReaction _volumeReaction = new ();
 
     public override void Execute(IReactionPart target)
     {
         foreach (var info in _infos)
         {
-            for (var i = 0; i < info.NumberOfItems; i++)
-            {
-                var item = Object.Instantiate(info.Item);
-                item.transform.localScale = GetScaleVector(info.Scale);
-                item.transform.position = GetPosition(target);
-                item.transform.rotation = GetRotation();
-            }
+            ExecuteManually(target, info.Item, info.Volume, info.NumberOfItems);
+        }
+    }
+    
+    public void ExecuteManually(IReactionPart target, float totalVolume)
+    {
+        foreach (var info in _infos)
+        {
+            ExecuteManually(target, info.Item, totalVolume / _infos.Count, info.NumberOfItems);
+        }
+    }
+
+    public void ExecuteManually(IReactionPart target, PotItem prefab, float volume, int numberOfItems)
+    {
+        for (var i = 0; i < numberOfItems; i++)
+        {
+            var item = Object.Instantiate(prefab);
+            
+            item.Init();
+            _volumeReaction.ManuallySet(item.ReactionPart, volume);
+            
+            item.transform.position = GetPosition(target);
+            item.transform.rotation = GetRotation();
         }
     }
 
@@ -40,7 +57,7 @@ public class ProduceReaction : SoloReaction
     private class TransformationInfo
     {
         public PotItem Item;
-        public int NumberOfItems;
-        public float Scale = 1f;
+        public int NumberOfItems = 1;
+        public float Volume = 1f;
     }
 }
