@@ -41,6 +41,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     {
         _waterBus = water.EventBus;
         _waterBus.Subscribe(this);
+        water.NotifyDipIntoWater(this);
         HandleTemperatureChanged(water.Temperature);
     }
 
@@ -58,6 +59,8 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
 
 public interface IReactionPart
 {
+
+    public ReactionConfig Config { get;}
     public Vector3 Position { get; }
     public float Volume { get; set; }
 
