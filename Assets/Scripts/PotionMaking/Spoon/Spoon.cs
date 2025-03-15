@@ -1,38 +1,44 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Spoon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public float followSpeed = 10f; // Скорость следования ложки
-    public float pushForce = 5f; // Сила толчка объектов
+    public float _followSpeed = 5f; // Скорость следования ложки
 
-    private bool isDragging = false;
-    private Vector3 targetPosition;
-    private Rigidbody2D rb;
+    private bool _isDragging = false;
+    private Vector3 _targetPosition;
+    private Rigidbody2D _rigidbody;
 
-    void Start()
+    private Vector3 _startPosition;
+    private Tween _backTween;
+
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _startPosition = transform.position;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (isDragging)
-        {
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.fixedDeltaTime);
-            rb.MovePosition(smoothedPosition);
-        }
+        if (!_isDragging) return;
+        
+        var smoothedPosition = Vector3.Lerp(transform.position, _targetPosition, _followSpeed * Time.fixedDeltaTime);
+        _rigidbody.MovePosition(smoothedPosition);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        isDragging = true;
+        _isDragging = true;
+        _backTween.Kill();
         UpdateTargetPosition(eventData);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isDragging = false;
+        _isDragging = false;
+        _backTween = _rigidbody.DOMove(_startPosition, 0.55f)
+            .SetEase(Ease.OutQuart);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -44,19 +50,6 @@ public class Spoon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDra
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
         worldPosition.z = 0;
-        targetPosition = worldPosition;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<PotItem>(out var component))
-        {
-            Rigidbody2D ingredientRb = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (ingredientRb != null)
-            {
-                Vector2 forceDirection = (collision.transform.position - transform.position).normalized;
-                ingredientRb.AddForce(forceDirection * pushForce, ForceMode2D.Impulse);
-            }
-        }
+        _targetPosition = worldPosition;
     }
 }
