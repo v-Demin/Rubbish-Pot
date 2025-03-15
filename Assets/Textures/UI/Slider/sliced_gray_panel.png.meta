@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 215d5760e5bd90f41903c2fb1e4fd6bd
+guid: 428384bc6f0cf9e49ac6ec79bab01de6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1352026903629875051
-    second: button_rnd_grayscale_0
+      213: 1591626294349413471
+    second: button_rnd_pressed_grayscale_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 98, y: 98, z: 98, w: 98}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: button_rnd_grayscale_0
+      name: button_rnd_pressed_grayscale_0
       rect:
         serializedVersion: 2
         x: 0
@@ -114,8 +114,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6741a53e4d53c210800000000000000
-      internalID: 1352026903629875051
+      spriteID: f5c3ed19ea7961610800000000000000
+      internalID: 1591626294349413471
       vertices: []
       indices: 
       edges: []
@@ -131,7 +131,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      button_rnd_grayscale_0: 1352026903629875051
+      button_rnd_pressed_grayscale_0: 1591626294349413471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
