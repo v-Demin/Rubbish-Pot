@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class Water : MonoBehaviour, IEventBusKeeper
     [SerializeField] private List<WaterColorInfo> _infos;
     private Color _basicColor;
     private List<IReactionPart> _reactions = new ();
+
+    public Action<List<IReactionPart>> OnValueProportionChanged;
 
     public EventBus EventBus { get; } = new EventBus();
 
@@ -31,12 +34,21 @@ public class Water : MonoBehaviour, IEventBusKeeper
 
     public void NotifyDipIntoWater(IReactionPart reactionPart)
     {
-        if(!_reactions.Contains(reactionPart))
+        if (_reactions.Contains(reactionPart)) return;
         _reactions.Add(reactionPart);
+        
+        reactionPart.OnVolumeChanged += VolumeChanged;
+        VolumeChanged(reactionPart.Volume);
+        
         UpdateColor();
     }
 
-    public void UpdateColor()
+    private void VolumeChanged(float volume)
+    {
+        OnValueProportionChanged?.Invoke(_reactions);
+    }
+
+    private void UpdateColor()
     {
         if (_reactions == null || _reactions.Count == 0) return;
 

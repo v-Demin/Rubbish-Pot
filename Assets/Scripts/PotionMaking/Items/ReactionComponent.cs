@@ -10,11 +10,18 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
     private PotItem _owner;
     public Vector3 Position => _owner.transform.position;
 
+    public event Action<float> OnVolumeChanged;
+
     public float Volume
     {
         get => _owner.Volume;
-        set => _owner.Volume = value;
+        set
+        {
+            _owner.Volume = value;
+            OnVolumeChanged?.Invoke(Volume);
+        }
     }
+
 
     [field:SerializeField] public ReactionConfig Config { get; private set; }
 
@@ -50,6 +57,7 @@ public class ReactionComponent : IReactionPart, ITemperatureHandler
         _configBus?.RaiseEvent<ITemperatureReactionHandler>(h => h.HandleTemperatureChanged(newTemperature, this));
     }
 
+
     public void Destroy()
     {
         _waterBus?.Unsubscribe(this);
@@ -63,6 +71,8 @@ public interface IReactionPart
     public ReactionConfig Config { get;}
     public Vector3 Position { get; }
     public float Volume { get; set; }
+
+    public event Action<float> OnVolumeChanged;
 
     public void Destroy();
 }
