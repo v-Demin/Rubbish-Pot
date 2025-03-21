@@ -16,7 +16,7 @@ public class Water : MonoBehaviour, IEventBusKeeper
 
     public Action<List<IReactionPart>> OnValueProportionChanged;
 
-    public EventBus EventBus { get; } = new EventBus();
+    public EventBus EventBus { get; } = new ();
 
     private float _temperature = MIN_TEMPERATURE;
     public float Temperature => _temperature;
@@ -24,6 +24,7 @@ public class Water : MonoBehaviour, IEventBusKeeper
     private void Start()
     {
         _basicColor = _waterSprite.color;
+        EventBus.RaiseEvent<ITemperatureHandler>(h => h.HandleTemperatureChanged(_temperature));
     }
 
     public void OnSliderUpdated(float sliderValue)
