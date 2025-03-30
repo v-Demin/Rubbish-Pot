@@ -1,86 +1,51 @@
+using System;
 using UnityEngine;
 
 public class ThrowingMechanic : MonoBehaviour
 {
-    [Header("Настройки объекта")]
-    public GameObject objectPrefab;  // Префаб объекта, который будет бросаться
-    public float throwHeight = 5f;     // Фиксированная высота во время перемещения
-    public Vector2 horizontalBounds = new Vector2(-5f, 5f); // Ограничения по оси X
+    [SerializeField] private Vector2 _horizontalBounds = new Vector2(3f, 3f);
+    [SerializeField] private float _throwingHeight = 3f;
 
-    [Header("Настройки Gizmos")]
-    public Color boundaryColor = Color.green; // Цвет границ движения
-    public Color trajectoryColor = Color.red; // Цвет линии траектории
+    private Func<ThrowingObject> _objectGetter;
+    private Func<bool> _isDraggingAvailable;
+    private Action _onObjectDropped;
 
-    private GameObject currentObject;   // Текущий создаваемый объект
-    private Vector3 initialPosition;    // Начальная позиция (точка броска)
-    private Vector3 lastPosition;       // Последняя позиция объекта во время перетаскивания
-    private bool isDragging = false;    // Флаг перетаскивания объекта
-
-    void Update()
+    private ThrowingObject _currentThrowingObject;
+    
+    public void Init(Func<ThrowingObject> objectGetter, Func<bool> isDraggingAvailable, Action onObjectDropped)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Получаем позицию мыши в мировых координатах.
-            Vector3 mousePos = Input.mousePosition;
-            // Задаём z для корректного преобразования (расстояние до камеры)
-            mousePos.z = Mathf.Abs(Camera.main.transform.position.z);
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        _objectGetter = objectGetter;
+        _isDraggingAvailable = isDraggingAvailable;
+        _onObjectDropped = onObjectDropped;
+    }
 
-            // Устанавливаем позицию броска с фиксированной высотой
-            initialPosition = new Vector3(worldPos.x, throwHeight, worldPos.z);
-            currentObject = Instantiate(objectPrefab, initialPosition, Quaternion.identity);
-            lastPosition = initialPosition;
-            isDragging = true;
+    private void Update()
+    {
+        if (_isDraggingAvailable == null || !_isDraggingAvailable()) return;
+        if (_objectGetter == null) return;
+        
+        if (_currentThrowingObject == null)
+        {
+            CreateNewThrowingObject();
+            _currentThrowingObject.Grab();
         }
 
-        if (isDragging && Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            // Обновляем позицию объекта согласно движению мыши
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = Mathf.Abs(Camera.main.transform.position.z);
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-            // Ограничиваем движение по оси X заданными границами
-            float newX = Mathf.Clamp(worldPos.x, horizontalBounds.x, horizontalBounds.y);
-            Vector3 newPos = new Vector3(newX, throwHeight, initialPosition.z);
-            
-            if (currentObject != null)
-            {
-                currentObject.transform.position = newPos;
-                lastPosition = newPos;
-            }
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var positionX = Mathf.Clamp(mousePosition.x, _horizontalBounds.x, _horizontalBounds.y);
+            _currentThrowingObject.transform.position = new Vector3(positionX, _throwingHeight, -20f);
         }
-
-        if (isDragging && Input.GetMouseButtonUp(0))
+        else
         {
-            // При отпускании мыши включаем физику для объекта
-            if (currentObject != null)
-            {
-                Rigidbody rb = currentObject.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.useGravity = true;
-                    // При необходимости можно добавить силу для броска:
-                    // rb.AddForce(Vector3.down * сила, ForceMode.Impulse);
-                }
-            }
-            isDragging = false;
+            _currentThrowingObject.Drop();
+            _currentThrowingObject = null;
+            _onObjectDropped?.Invoke();
         }
     }
 
-    void OnDrawGizmos()
+    private void CreateNewThrowingObject()
     {
-        // Отрисовка ограничивающей линии (границ по оси X) на заданной высоте
-        Gizmos.color = boundaryColor;
-        Vector3 leftPoint = new Vector3(horizontalBounds.x, throwHeight, 0);
-        Vector3 rightPoint = new Vector3(horizontalBounds.y, throwHeight, 0);
-        Gizmos.DrawLine(leftPoint, rightPoint);
-
-        // Отрисовка линии траектории движения объекта
-        if (isDragging)
-        {
-            Gizmos.color = trajectoryColor;
-            Gizmos.DrawLine(initialPosition, lastPosition);
-        }
+        _currentThrowingObject = _objectGetter();
     }
 }

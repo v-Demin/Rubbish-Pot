@@ -1,80 +1,58 @@
-using DG.Tweening;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Zenject;
 
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private RectTransform _moveRoot;
-    [SerializeField] private RectTransform _showWp;
-    [SerializeField] private RectTransform _hideWp;
+    [Inject] private readonly Inventory _inventory;
 
-    [SerializeField] private bool _baseStateOnStart;
-    private bool _currentShowState;
+    public Action<InventoryItemData> OnInventoryItemSelected;
+
+    [SerializeField] private RectTransform _parent;
+    [SerializeField] private InventoryUIItem _itemPrefab;
+
+    private Dictionary<InventoryItemData, InventoryUIItem> _uiItems = new ();
 
     private void Start()
     {
-        if (_baseStateOnStart)
-        {
-            ShowImmediate();
-        }
-        else
-        {
-            HideImmediate();
-        }
-
-        _currentShowState = _baseStateOnStart;
+        _inventory.OnItemsUpdated += Refresh;
+        Refresh();
     }
 
-    public void Show()
+    private void Refresh()
     {
-        _moveRoot.DOMove(_showWp.position, 0.75f)
-            .SetEase(Ease.InOutQuart);
+        var inventoryItems = _inventory.GetItems();
 
-        _currentShowState = true;
-    }
-
-    public void ShowImmediate()
-    {
-        _moveRoot.position = _showWp.position;
-        
-        _currentShowState = true;
-    }
-
-    public void Hide()
-    {
-        _moveRoot.DOMove(_hideWp.position, 0.75f)
-            .SetEase(Ease.InOutQuart);
-        
-        _currentShowState = false;
-    }
-
-    public void HideImmediate()
-    {
-        _moveRoot.position = _hideWp.position;
-        
-        _currentShowState = false;
-    }
-
-    public void Switch()
-    {
-        if (_currentShowState)
+        var keysToRemove = _uiItems.Keys.Where(key => !inventoryItems.ContainsKey(key)).ToList();
+        foreach (var key in keysToRemove)
         {
-            Hide();
+            Destroy(_uiItems[key].gameObject);
+            _uiItems.Remove(key);
         }
-        else
+
+        foreach (var pair in inventoryItems)
         {
-            Show();
+            if (!_uiItems.ContainsKey(pair.Key))
+            {
+                var uiItem = Instantiate(_itemPrefab, _parent);
+                var preview = Instantiate(pair.Key.Preview, uiItem.PreviewParent);
+                uiItem.Init(preview, () => GetNumberOfItems(pair.Key), OnInventoryUIItemSelected);
+                _uiItems.Add(pair.Key, uiItem);
+            }
+            
+            _uiItems[pair.Key].Refresh();
         }
     }
-    
-    public void SwitchImmediate()
+
+    private void OnInventoryUIItemSelected(InventoryUIItem item)
     {
-        if (_currentShowState)
-        {
-            HideImmediate();
-        }
-        else
-        {
-            ShowImmediate();
-        }
+        OnInventoryItemSelected?.Invoke(_uiItems.FirstOrDefault(i => i.Value == item).Key);
+    }
+
+    private int GetNumberOfItems(InventoryItemData data)
+    {
+        return _inventory.GetItems()[data];
     }
 }

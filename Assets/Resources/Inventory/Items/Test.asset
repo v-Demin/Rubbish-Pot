@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203a978438a528940afd53dc6d762244, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  <PotItemPrefab>k__BackingField: {fileID: 1668272964440907448, guid: 8f7867a14d77d954995d9cf3c5999858, type: 3}
+  <Preview>k__BackingField: {fileID: 9171515361400426399, guid: 12816d27786c46149940697afac822d4, type: 3}
+  <Price>k__BackingField: 500
