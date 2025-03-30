@@ -215,8 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _water: {fileID: 1120384864}
   _temperatureLable: {fileID: 1875153202}
-  _redSlider: {fileID: 1926588021}
-  _blueSlider: {fileID: 2118037882}
+  _baseSlider: {fileID: 2118037882}
+  _dependentSlider: {fileID: 1926588021}
 --- !u!1 &407574422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3619978859639466530, guid: 02b2ffe22b7df524998693267a98bdb3, type: 3}
