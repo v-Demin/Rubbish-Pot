@@ -15,7 +15,6 @@ public class Inventory : IInitializable
         //[Todo]: заменить на работу с сохранениями;
         var datas = Resources.LoadAll<InventoryItemData>("Inventory/Items/");
         
-        datas.Length.Log(Color.blue);
         foreach (var data in datas)
         {
             var numberOfItems = Random.Range(1, 5);
