@@ -1,0 +1,16 @@
+{
+    "name": "Submodules.Common.Templates",
+    "rootNamespace": "Submodules.Common.Templates",
+    "references": [
+        "GUID:77629c32aa1dae24d94c0fbfd13ecfb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

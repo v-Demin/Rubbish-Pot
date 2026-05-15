@@ -1,0 +1,19 @@
+{
+    "name": "RubbishPot.Core",
+    "rootNamespace": "RubbishPot.Core",
+    "references": [
+        "GUID:5912988735b490e4293372377274974d",
+        "GUID:77629c32aa1dae24d94c0fbfd13ecfb4",
+        "GUID:3ff1a809d69a23541b0fcb30b412ac71",
+        "GUID:79c4732a45a0843439d09781113efe92"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
