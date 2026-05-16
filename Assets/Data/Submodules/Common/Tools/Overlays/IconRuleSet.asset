@@ -50,3 +50,6 @@ MonoBehaviour:
         - AsmDefFile: {fileID: 5897886265953266890, guid: cb1d92940005b5c41b7731774d6939c5, type: 3}
           TagText: Util
           TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: e2f7a357f767c784086220eb27b4dc74, type: 3}
+          TagText: Core
+          TagColor: {r: 0.24777503, g: 0.41208217, b: 0.6037736, a: 1}
