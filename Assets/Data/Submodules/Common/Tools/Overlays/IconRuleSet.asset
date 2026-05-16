@@ -11,16 +11,42 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a1fdd14b0bde94db5c1c7412e4f1b4, type: 3}
   m_Name: IconRuleSet
-  m_EditorClassIdentifier: Submodules.Common.Tools.Overlays::ScriptIconRuleSet
+  m_EditorClassIdentifier: Submodules.Common.Tools.Overlays::Submodules.Common.Tools.Overlays.ScriptIconRuleSet
   Rules:
-  - rid: 6965225096867741788
-  - rid: 6965225096867741789
+  - rid: 6965225109909667905
+  - rid: 6965225109909667906
+  - rid: 6965225109909667909
   references:
     version: 2
     RefIds:
-    - rid: 6965225096867741788
-      type: {class: AbstractClassRule, ns: , asm: Submodules.Common.Tools.Overlays}
+    - rid: 6965225109909667905
+      type: {class: AbstractClassRule, ns: Submodules.Common.Tools.Overlays, asm: Submodules.Common.Tools.Overlays}
       data: 
-    - rid: 6965225096867741789
-      type: {class: MonoBehaviourRule, ns: , asm: Submodules.Common.Tools.Overlays}
+    - rid: 6965225109909667906
+      type: {class: MonoBehaviourRule, ns: Submodules.Common.Tools.Overlays, asm: Submodules.Common.Tools.Overlays}
       data: 
+    - rid: 6965225109909667909
+      type: {class: AssemblyRule, ns: Submodules.Common.Tools.Overlays, asm: Submodules.Common.Tools.Overlays}
+      data:
+        _configs:
+        - AsmDefFile: {fileID: 5897886265953266890, guid: 73bd52d8fe231b3429742383fb2eedc1, type: 3}
+          TagText: OVL
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: 16e0a803849548b4ca6359a74ef8c606, type: 3}
+          TagText: SCC
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: 79c4732a45a0843439d09781113efe92, type: 3}
+          TagText: SCS
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: c7dc3e454a5724345bfffc43bf8c7f00, type: 3}
+          TagText: EBUS
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: 3ff1a809d69a23541b0fcb30b412ac71, type: 3}
+          TagText: Plugin
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: da0f88e7064fa6e4796e3a112aa21be1, type: 3}
+          TagText: TMPL
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        - AsmDefFile: {fileID: 5897886265953266890, guid: cb1d92940005b5c41b7731774d6939c5, type: 3}
+          TagText: Util
+          TagColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
