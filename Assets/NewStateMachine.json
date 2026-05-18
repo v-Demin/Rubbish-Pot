@@ -1,0 +1,241 @@
+{
+    "Nodes": [
+        {
+            "rid": 1000
+        },
+        {
+            "rid": 1001
+        },
+        {
+            "rid": 1002
+        },
+        {
+            "rid": 1003
+        },
+        {
+            "rid": 1004
+        },
+        {
+            "rid": 1005
+        },
+        {
+            "rid": 1006
+        },
+        {
+            "rid": 1007
+        },
+        {
+            "rid": 1008
+        }
+    ],
+    "Edges": [
+        {
+            "OutputNodeID": "853b43e7-140a-42ba-8a13-ade7d196d807",
+            "InputNodeID": "d9f841a1-480a-4d32-af0f-f006fa2801a8",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "49a3f499-6eb2-47d1-b879-f322db0a8164",
+            "InputNodeID": "d82c13b1-fb17-474f-9731-2862c10dc0ad",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "d82c13b1-fb17-474f-9731-2862c10dc0ad",
+            "InputNodeID": "14ac28d9-96ff-453a-b9cf-1478a4314bca",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "977a0831-f53d-4219-bea8-8df9cc409546",
+            "InputNodeID": "d0db7d0e-d2a9-4bac-95ac-eea559e1d2df",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "93211941-5090-480f-a169-8e5c2991f369",
+            "InputNodeID": "14ac28d9-96ff-453a-b9cf-1478a4314bca",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "e894e495-f083-4a92-a9fe-895abf3b0ae3",
+            "InputNodeID": "14ac28d9-96ff-453a-b9cf-1478a4314bca",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "d0db7d0e-d2a9-4bac-95ac-eea559e1d2df",
+            "InputNodeID": "93211941-5090-480f-a169-8e5c2991f369",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "d0db7d0e-d2a9-4bac-95ac-eea559e1d2df",
+            "InputNodeID": "e894e495-f083-4a92-a9fe-895abf3b0ae3",
+            "PortName": "",
+            "OutputPortIndex": 1
+        },
+        {
+            "OutputNodeID": "d9f841a1-480a-4d32-af0f-f006fa2801a8",
+            "InputNodeID": "977a0831-f53d-4219-bea8-8df9cc409546",
+            "PortName": "",
+            "OutputPortIndex": 0
+        },
+        {
+            "OutputNodeID": "d9f841a1-480a-4d32-af0f-f006fa2801a8",
+            "InputNodeID": "49a3f499-6eb2-47d1-b879-f322db0a8164",
+            "PortName": "",
+            "OutputPortIndex": 1
+        }
+    ],
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "RuntimeEntryNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "853b43e7-140a-42ba-8a13-ade7d196d807",
+                    "Position": {
+                        "x": 307.0,
+                        "y": 253.0
+                    }
+                }
+            },
+            {
+                "rid": 1001,
+                "type": {
+                    "class": "RuntimeParallelNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "d9f841a1-480a-4d32-af0f-f006fa2801a8",
+                    "Position": {
+                        "x": 501.0,
+                        "y": 253.0
+                    }
+                }
+            },
+            {
+                "rid": 1002,
+                "type": {
+                    "class": "RuntimePhraseNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "977a0831-f53d-4219-bea8-8df9cc409546",
+                    "Position": {
+                        "x": 720.0,
+                        "y": 253.0
+                    },
+                    "Text": "Абдурахман абдурахлы, налей-ка мне огненной воды"
+                }
+            },
+            {
+                "rid": 1003,
+                "type": {
+                    "class": "RuntimeCancelOrderNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "49a3f499-6eb2-47d1-b879-f322db0a8164",
+                    "Position": {
+                        "x": 876.0,
+                        "y": 553.0
+                    }
+                }
+            },
+            {
+                "rid": 1004,
+                "type": {
+                    "class": "RuntimePhraseNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "d82c13b1-fb17-474f-9731-2862c10dc0ad",
+                    "Position": {
+                        "x": 1096.0,
+                        "y": 553.0
+                    },
+                    "Text": "ГАЛЯ У НАС ОТМЕНА!"
+                }
+            },
+            {
+                "rid": 1005,
+                "type": {
+                    "class": "RuntimeChoiceNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "d0db7d0e-d2a9-4bac-95ac-eea559e1d2df",
+                    "Position": {
+                        "x": 1203.0,
+                        "y": 253.0
+                    },
+                    "Choices": [
+                        "А ты чьих будешь?",
+                        "Конечно"
+                    ]
+                }
+            },
+            {
+                "rid": 1006,
+                "type": {
+                    "class": "RuntimePhraseNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "93211941-5090-480f-a169-8e5c2991f369",
+                    "Position": {
+                        "x": 1616.0,
+                        "y": 173.0
+                    },
+                    "Text": "Я чёрный плащ"
+                }
+            },
+            {
+                "rid": 1007,
+                "type": {
+                    "class": "RuntimePhraseNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "e894e495-f083-4a92-a9fe-895abf3b0ae3",
+                    "Position": {
+                        "x": 1660.0,
+                        "y": 383.0
+                    },
+                    "Text": "Спасибо"
+                }
+            },
+            {
+                "rid": 1008,
+                "type": {
+                    "class": "RuntimeExitNode",
+                    "ns": "RubbishPot.Core",
+                    "asm": "RubbishPot.Core"
+                },
+                "data": {
+                    "ID": "14ac28d9-96ff-453a-b9cf-1478a4314bca",
+                    "Position": {
+                        "x": 2020.0,
+                        "y": 462.0
+                    }
+                }
+            }
+        ]
+    }
+}
