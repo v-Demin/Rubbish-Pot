@@ -300,7 +300,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865148025}
-  - component: {fileID: 1865148026}
   - component: {fileID: 1865148027}
   m_Layer: 0
   m_Name: Controllers
@@ -324,18 +323,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1865148026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865148024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7f188789acb6d469aefa12faedbc21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: RubbishPot.Core::RubbishPot.Core.GraphRuntimeInterpreter
 --- !u!114 &1865148027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,8 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c91d341a5676c48835650eeb360c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: RubbishPot.Core::RubbishPot.Core.Test
-  _graphJsonFile: {fileID: 4900000, guid: 9a733e720ebaf7441a8f98473333cd79, type: 3}
-  _interpreter: {fileID: 1865148026}
+  _plotName: Test
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

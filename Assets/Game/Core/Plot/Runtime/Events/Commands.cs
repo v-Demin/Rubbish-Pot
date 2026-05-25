@@ -1,8 +1,12 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace RubbishPot.Core
 {
+    
+    public interface ICommand
+    {
+        void Execute();
+    }
 // Базовая команда ноды (чтобы система знала, какая именно нода её вызвала)
 public abstract class BaseNodeCommand : ICommand
 {
