@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e9b95c7a1b2abe47b988a932d2a2675, type: 3}
+  m_Name: Test2
+  m_EditorClassIdentifier: RubbishPot.Core::RubbishPot.Core.PlotAsset
+  Data:
+    Nodes:
+    - rid: 6965225320961278192
+    - rid: 6965225320961278194
+    - rid: 6965225320961278205
+    - rid: 6965225320961278193
+    Edges:
+    - OutputNodeID: 9e29aac6-c652-4e82-99e6-17d460824f97
+      InputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
+      PortName: Single
+      OutputPortIndex: 0
+    - OutputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
+      InputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
+      PortName: Single
+      OutputPortIndex: 0
+    - OutputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
+      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
+      PortName: Single
+      OutputPortIndex: 0
+    - OutputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
+      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
+      PortName: Single
+      OutputPortIndex: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 6965225320961278192
+      type: {class: RuntimeEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        ID: 9e29aac6-c652-4e82-99e6-17d460824f97
+        Position: {x: 100, y: 200}
+    - rid: 6965225320961278193
+      type: {class: RuntimeExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        ID: 1e547dab-5072-4a25-865e-123daa0edcb4
+        Position: {x: 862, y: 200}
+    - rid: 6965225320961278194
+      type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        ID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
+        Position: {x: 272, y: 200}
+        Text: "\u0422\u0435\u0441\u04422"
+    - rid: 6965225320961278205
+      type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        ID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
+        Position: {x: 473, y: 200}
+        Choices:
+        - "\u0421\u0443\u043A\u0430\u0435\u0431\u0430\u043D\u0430\u044F"
+        - "\u041F\u0438\u0434\u0430\u0440\u0430\u0441 \u0441\u0443\u043A\u0430"

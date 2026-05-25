@@ -1,14 +1,21 @@
+using System.Linq;
+using UnityEngine;
+
 namespace RubbishPot.Core
 {
-    public class GraphRuntimeInterpreter
+    public class Plot : IInternalPlot
     {
-        private readonly Plot _plot;
-        private readonly NodeHandlerRegistry _registry;
+        public string Name { get; }
+        private readonly PlotData _data;
+        private readonly PlotRegistry _registry;
+        private readonly GraphController _controller;
 
-        public GraphRuntimeInterpreter(Plot plot)
+        public Plot(PlotData data, string name)
         {
-            _plot = plot;
-            _registry = new NodeHandlerRegistry();
+            Name = name;
+            _data = data;
+            _registry = new PlotRegistry();
+            _controller = new GraphController(this, _data);
             RegisterHandlers();
         }
 
@@ -28,11 +35,41 @@ namespace RubbishPot.Core
             _registry.Register<RuntimeGroupNode>(new GroupNodeHandler());
         }
 
+        public void Execute()
+        {
+            var entryNode = _data.Nodes.OfType<RuntimeEntryNode>().FirstOrDefault();
+            
+            if (entryNode == null)
+            {
+                Debug.LogError($"[Plot] Ошибка старта '{Name}': В файле данных отсутствует EntryNode!");
+                return;
+            }
+
+            Execute(entryNode.ID);
+        }
+
+        public void Stop()
+        {
+            _controller?.Dispose();
+        }
+
         public void Execute(string nodeId)
         {
-            var node = _plot.Nodes.Find(n => n.ID == nodeId);
+            var node = _data.Nodes.Find(n => n.ID == nodeId);
             if (node == null) return;
             _registry.GetHandler(node).Handle(node);
         }
+    }
+    
+    public interface IPlot
+    {
+        string Name { get; }
+        void Execute();
+        void Stop();
+    }
+
+    public interface IInternalPlot : IPlot
+    {
+        void Execute(string nodeId); 
     }
 }

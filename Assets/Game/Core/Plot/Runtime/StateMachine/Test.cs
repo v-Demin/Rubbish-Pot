@@ -1,3 +1,5 @@
+using Zenject;
+
 namespace RubbishPot.Core
 {
     using UnityEngine;
@@ -5,12 +7,8 @@ namespace RubbishPot.Core
 
     public class Test : MonoBehaviour
     {
-        [Header("Настройки")]
-        [SerializeField] private string _plotName; // Имя файла в папке Resources
-
-        private GraphRuntimeInterpreter _interpreter;
-        private GraphController _controller;
-
+        [Inject] private readonly IGameFlowService _service;
+        
         private bool _waitingForChoice = false;
         private bool _canCancelOrder = false;
         private ShowPlayerChoicesCommand _currentChoiceCommand;
@@ -18,30 +16,12 @@ namespace RubbishPot.Core
 
         private void Start()
         {
-            if (string.IsNullOrEmpty(_plotName))
-            {
-                Debug.LogError("Забыли написать имя файла графа в Инспекторе!");
-                return;
-            }
-
             SubscribeToAllEvents();
 
             Debug.Log("<color=green>=== ЗАПУСК ТЕСТОВОГО ГРАФА ===</color>");
             Debug.Log("<color=gray>[ИНФО] Управление в тесте:\nЦифры 1, 2, 3, 4 — Выбор ответа\nКлавиша ESC — Отмена заказа</color>");
-
-            // Фабрика собирает всё сама, возвращает готовые движки и ID точки входа
-            var (interpreter, controller, entryId) = PlotFactory.Create(_plotName);
-            _interpreter = interpreter;
-            _controller = controller;
-
-            if (!string.IsNullOrEmpty(entryId))
-            {
-                _interpreter.Execute(entryId);
-            }
-            else
-            {
-                Debug.LogError("В графе отсутствует EntryNode!");
-            }
+            
+            _service.EntryNext();
         }
 
         private void Update()

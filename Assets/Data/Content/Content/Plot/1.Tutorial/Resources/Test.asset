@@ -17,32 +17,32 @@ MonoBehaviour:
     - rid: 6965225320961278192
     - rid: 6965225320961278194
     - rid: 6965225320961278195
-    - rid: 6965225320961278193
     - rid: 6965225320961278196
+    - rid: 6965225320961278193
     - rid: 6965225320961278197
     Edges:
-    - OutputNodeID: 9e29aac6-c652-4e82-99e6-17d460824f97
-      InputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
+    - OutputNodeID: ab8ddeaf-4274-4b82-bfe2-d6ab614b10dc
+      InputNodeID: 4978d2a6-369b-4116-9654-0b5611c4ccc7
       PortName: Single
       OutputPortIndex: 0
-    - OutputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
-      InputNodeID: 2f933973-bd17-49bb-afbd-b0872dd24e14
+    - OutputNodeID: 4978d2a6-369b-4116-9654-0b5611c4ccc7
+      InputNodeID: 27058f8d-d74c-47c1-9c06-99b420ca538f
       PortName: Single
       OutputPortIndex: 0
-    - OutputNodeID: 2f933973-bd17-49bb-afbd-b0872dd24e14
-      InputNodeID: 2bec5b7a-ee52-4b29-baac-4f1c106631a3
-      PortName: 111
-      OutputPortIndex: 0
-    - OutputNodeID: 2bec5b7a-ee52-4b29-baac-4f1c106631a3
-      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
+    - OutputNodeID: 27058f8d-d74c-47c1-9c06-99b420ca538f
+      InputNodeID: 6a46436c-6069-465b-b1b2-f5fa4c5a512c
       PortName: Single
       OutputPortIndex: 0
-    - OutputNodeID: 2f933973-bd17-49bb-afbd-b0872dd24e14
-      InputNodeID: f93cd3e9-7561-4c34-ae06-2abc8a1d9b05
-      PortName: 222
+    - OutputNodeID: 4978d2a6-369b-4116-9654-0b5611c4ccc7
+      InputNodeID: 2c5521f9-da26-4c74-aa45-27fa08a285e2
+      PortName: Single
       OutputPortIndex: 1
-    - OutputNodeID: f93cd3e9-7561-4c34-ae06-2abc8a1d9b05
-      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
+    - OutputNodeID: 2c5521f9-da26-4c74-aa45-27fa08a285e2
+      InputNodeID: 6a46436c-6069-465b-b1b2-f5fa4c5a512c
+      PortName: Single
+      OutputPortIndex: 0
+    - OutputNodeID: 8070c46a-3099-4ac9-9cf2-046b21e90adf
+      InputNodeID: ab8ddeaf-4274-4b82-bfe2-d6ab614b10dc
       PortName: Single
       OutputPortIndex: 0
   references:
@@ -51,36 +51,36 @@ MonoBehaviour:
     - rid: 6965225320961278192
       type: {class: RuntimeEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 9e29aac6-c652-4e82-99e6-17d460824f97
+        ID: 8070c46a-3099-4ac9-9cf2-046b21e90adf
         Position: {x: 100, y: 200}
     - rid: 6965225320961278193
       type: {class: RuntimeExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 1e547dab-5072-4a25-865e-123daa0edcb4
-        Position: {x: 1127, y: 182}
+        ID: 6a46436c-6069-465b-b1b2-f5fa4c5a512c
+        Position: {x: 983, y: 200}
     - rid: 6965225320961278194
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
-        Position: {x: 254, y: 200}
+        ID: ab8ddeaf-4274-4b82-bfe2-d6ab614b10dc
+        Position: {x: 272, y: 200}
         Text: FFF?
     - rid: 6965225320961278195
       type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 2f933973-bd17-49bb-afbd-b0872dd24e14
-        Position: {x: 497, y: 182}
+        ID: 4978d2a6-369b-4116-9654-0b5611c4ccc7
+        Position: {x: 471, y: 200}
         Choices:
         - 111
         - 222
     - rid: 6965225320961278196
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 2bec5b7a-ee52-4b29-baac-4f1c106631a3
-        Position: {x: 771, y: 123}
+        ID: 27058f8d-d74c-47c1-9c06-99b420ca538f
+        Position: {x: 751, y: 200}
         Text: 1
     - rid: 6965225320961278197
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: f93cd3e9-7561-4c34-ae06-2abc8a1d9b05
-        Position: {x: 808, y: 311}
+        ID: 2c5521f9-da26-4c74-aa45-27fa08a285e2
+        Position: {x: 750, y: 341}
         Text: 2

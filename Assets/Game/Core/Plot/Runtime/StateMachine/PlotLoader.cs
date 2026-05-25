@@ -10,8 +10,8 @@ namespace RubbishPot.Core
             Formatting = Formatting.Indented
         };
 
-        public static Plot Load(string json) => JsonConvert.DeserializeObject<Plot>(json, GetSettings());
+        public static PlotData Load(string json) => JsonConvert.DeserializeObject<PlotData>(json, GetSettings());
     
-        public static string Save(Plot plot) => JsonConvert.SerializeObject(plot, GetSettings());
+        public static string Save(PlotData plotData) => JsonConvert.SerializeObject(plotData, GetSettings());
     }
 }

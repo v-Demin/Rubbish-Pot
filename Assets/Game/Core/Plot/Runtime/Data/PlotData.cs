@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RubbishPot.Core
 {
     [Serializable]
-    public class Plot
+    public class PlotData
     {
         [SerializeReference]
         public List<RuntimeNode> Nodes = new();

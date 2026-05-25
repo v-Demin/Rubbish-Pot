@@ -1,14 +1,16 @@
+using System;
+
 namespace RubbishPot.Core
 {
-    public class GraphController
+    public class GraphController : IDisposable
     {
-        private readonly GraphRuntimeInterpreter _interpreter;
-        private readonly Plot _plot;
+        private readonly IInternalPlot _plot; // Работаем через внутренний интерфейс
+        private readonly PlotData _plotData;
 
-        public GraphController(GraphRuntimeInterpreter interpreter, Plot plot)
+        public GraphController(IInternalPlot plot, PlotData plotData)
         {
-            _interpreter = interpreter;
             _plot = plot;
+            _plotData = plotData;
             
             EventBus.Subscribe<NodeFinishedEvent>(OnNodeFinished);
             EventBus.Subscribe<NodeBranchEvent>(OnNodeBranch);
@@ -16,20 +18,27 @@ namespace RubbishPot.Core
 
         private void OnNodeFinished(NodeFinishedEvent e)
         {
-            var edges = _plot.Edges.FindAll(ed => ed.OutputNodeID == e.NodeId);
+            var edges = _plotData.Edges.FindAll(ed => ed.OutputNodeID == e.NodeId);
             foreach (var edge in edges)
             {
-                _interpreter.Execute(edge.InputNodeID);
+                _plot.Execute(edge.InputNodeID); // Вызываем внутренний метод по ID
             }
         }
 
         private void OnNodeBranch(NodeBranchEvent e)
         {
-            var edge = _plot.Edges.Find(ed => ed.OutputNodeID == e.NodeId && ed.OutputPortIndex == e.BranchIndex);
+            var edge = _plotData.Edges.Find(ed => ed.OutputNodeID == e.NodeId && ed.OutputPortIndex == e.BranchIndex);
             if (edge != null)
             {
-                _interpreter.Execute(edge.InputNodeID);
+                _plot.Execute(edge.InputNodeID); // Вызываем внутренний метод по ID
             }
+        }
+
+        // Защита от «Мертвых душ» в EventBus при смене сценариев
+        public void Dispose()
+        {
+            EventBus.Unsubscribe<NodeFinishedEvent>(OnNodeFinished);
+            EventBus.Unsubscribe<NodeBranchEvent>(OnNodeBranch);
         }
     }
 }
