@@ -77,12 +77,6 @@ namespace RubbishPot.Core
         {
             EventBus.Subscribe<PlayPhraseCommand>(cmd => {
                 Debug.Log($"<color=cyan>[PLAY PHRASE]</color> Node ID: {cmd.NodeId} | Текст: \"{cmd.Text}\"");
-                
-                // Авто-прокрутка через интерфейс ноды фразы
-                StartCoroutine(InvokeRoutine(() => {
-                    var phraseHandler = InteractionHub.Get<IPhraseNodeHandler>();
-                    phraseHandler?.CompletePhrase(cmd.NodeId);
-                }, 2.0f));
             });
 
             EventBus.Subscribe<PlayAnimationCommand>(cmd => {
@@ -117,18 +111,6 @@ namespace RubbishPot.Core
             EventBus.Subscribe<NodeCompletedCommand>(cmd => {
                 Debug.Log($"<color=green>=== [GRAPH FINISHED] ===</color> Работа завершена на Exit-ноде: {cmd.NodeId}");
             });
-        }
-
-        private void OnDestroy()
-        {
-            // Здесь должна быть нормальная очистка, но в рамках теста оставляем пустую отписку, 
-            // так как в нашей шине это безопасно
-        }
-
-        private IEnumerator InvokeRoutine(System.Action action, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            action?.Invoke();
         }
     }
 }
