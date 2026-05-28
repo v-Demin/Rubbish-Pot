@@ -3,7 +3,6 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Random = UnityEngine.Random;
 
 namespace RubbishPot.Screen.Counter
 {
@@ -23,7 +22,7 @@ namespace RubbishPot.Screen.Counter
             
             _root.localScale = new Vector3(0f, 1f, 1f);
             _root.gameObject.SetActive(true);
-            _root.DOScaleX(1f, Random.Range(0.5f, 0.6f))
+            _root.DOScaleX(1f, 0.6f)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() => onComplete?.Invoke());
         }
@@ -34,7 +33,6 @@ namespace RubbishPot.Screen.Counter
                 .SetEase(Ease.InQuad)
                 .OnComplete(() =>
                 {
-                    _root.gameObject.SetActive(false);
                     onComplete?.Invoke();
                 });
         }
@@ -45,7 +43,6 @@ namespace RubbishPot.Screen.Counter
                 .SetEase(Ease.InQuad)
                 .OnComplete(() =>
                 {
-                    _root.gameObject.SetActive(false);
                     onComplete?.Invoke();
                 });
         }
@@ -53,6 +50,11 @@ namespace RubbishPot.Screen.Counter
         public void SetInputState(bool state)
         {
             _image.raycastTarget = state;
+        }
+
+        public void Dispose()
+        {
+            _root.gameObject.SetActive(false);
         }
     }
 }

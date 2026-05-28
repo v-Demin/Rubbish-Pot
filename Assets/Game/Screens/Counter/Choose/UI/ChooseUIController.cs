@@ -35,6 +35,7 @@ namespace RubbishPot.Screen.Counter
                 Hide(index, () =>
             {
                 _options = null;
+                _wings.ForEach(w => w.Dispose());
                 onComplete?.Invoke();
             }));
         }

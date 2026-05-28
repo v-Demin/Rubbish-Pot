@@ -37,6 +37,11 @@ namespace RubbishPot.Screen.Counter
         {
             _options.ForEach(o => o.UI.SetInputState(state));
         }
+
+        public void Dispose()
+        {
+            _options.ForEach(o => o.UI.Dispose());
+        }
         
         [System.Serializable]
         private class OptionInfo
