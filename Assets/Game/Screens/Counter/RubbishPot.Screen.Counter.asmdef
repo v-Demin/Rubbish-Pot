@@ -2,11 +2,11 @@
     "name": "RubbishPot.Screen.Counter",
     "rootNamespace": "RubbishPot.Screen.Counter",
     "references": [
-        "GUID:5912988735b490e4293372377274974d",
-        "GUID:77629c32aa1dae24d94c0fbfd13ecfb4",
         "GUID:3ff1a809d69a23541b0fcb30b412ac71",
         "GUID:79c4732a45a0843439d09781113efe92",
-        "GUID:e2f7a357f767c784086220eb27b4dc74"
+        "GUID:e2f7a357f767c784086220eb27b4dc74",
+        "GUID:cb1d92940005b5c41b7731774d6939c5",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

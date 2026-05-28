@@ -72,6 +72,8 @@ namespace RubbishPot.Core
     
     public class PhraseUiNode : GraphViewNode<RuntimePhraseNode>
     {
+        protected override Port.Capacity InputCapacity => Port.Capacity.Multi;
+
         public PhraseUiNode(RuntimePhraseNode t) : base(t) { }
         protected override void BuildCustomUI()
         {

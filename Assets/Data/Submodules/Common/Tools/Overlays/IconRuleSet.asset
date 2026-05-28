@@ -53,9 +53,6 @@ MonoBehaviour:
         - AsmDefFile: {fileID: 5897886265953266890, guid: e2f7a357f767c784086220eb27b4dc74, type: 3}
           TagText: Core
           TagColor: {r: 0.24777503, g: 0.41208217, b: 0.6037736, a: 1}
-        - AsmDefFile: {fileID: 5897886265953266890, guid: e2f7a357f767c784086220eb27b4dc74, type: 3}
-          TagText: Core
-          TagColor: {r: 0.24777503, g: 0.41208217, b: 0.6037736, a: 1}
         - AsmDefFile: {fileID: 5897886265953266890, guid: fd6a4ad217590ac4f83347d90dec98da, type: 3}
           TagText: Count
           TagColor: {r: 0.24777503, g: 0.6037736, b: 0.28163463, a: 1}
