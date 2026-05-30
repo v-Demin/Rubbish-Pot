@@ -36,14 +36,6 @@ public interface INodeHandler { void Handle(RuntimeNode node); }
         }
     }
 
-    public class AnimationNodeHandler : INodeHandler 
-    { 
-        public void Handle(RuntimeNode n) { 
-            EventBus.Raise(new PlayAnimationCommand(n.ID, ((RuntimeAnimationNode)n).AnimationName)); 
-            EventBus.Raise(new NodeFinishedEvent(n.ID)); 
-        } 
-    }
-
     public class ChoiceNodeHandler : INodeHandler, IChoiceNodeHandler 
     {
         public void Handle(RuntimeNode n) {
@@ -60,14 +52,6 @@ public interface INodeHandler { void Handle(RuntimeNode node); }
     { 
         public void Handle(RuntimeNode n) { 
             EventBus.Raise(new MakeOrderCommand(n.ID, ((RuntimeMakeOrderNode)n).OrderID)); 
-            EventBus.Raise(new NodeFinishedEvent(n.ID)); 
-        } 
-    }
-
-    public class StorageNodeHandler : INodeHandler 
-    { 
-        public void Handle(RuntimeNode n) { 
-            EventBus.Raise(new SetStorageDataCommand<int>(n.ID, ((RuntimeStorageNode)n).DataKey, 777)); 
             EventBus.Raise(new NodeFinishedEvent(n.ID)); 
         } 
     }

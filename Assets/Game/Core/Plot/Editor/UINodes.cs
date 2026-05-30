@@ -87,140 +87,6 @@ namespace RubbishPot.Core
         }
     }
     
-    public class AnimationUiNode : GraphViewNode<RuntimeAnimationNode>
-    {
-        public AnimationUiNode(RuntimeAnimationNode t) : base(t) { }
-        protected override void BuildCustomUI()
-        {
-            title = "Play Animation";
-            outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float)));
-        
-            var field = new TextField("Anim Name") { value = RuntimeTarget.AnimationName };
-            field.RegisterValueChangedCallback(evt => RuntimeTarget.AnimationName = evt.newValue);
-            extensionContainer.Add(field);
-            RefreshExpandedState();
-        }
-    }
-    
-    public class GroupUiNode : GraphViewNode<RuntimeGroupNode>
-    {
-        public GroupUiNode(RuntimeGroupNode t) : base(t) { }
-
-        protected override void BuildCustomUI()
-        {
-            title = "Group Sync (Wait All)";
-            style.backgroundColor = new Color(0.15f, 0.15f, 0.35f);
-
-            if (RuntimeTarget.Position == Vector2.zero || outputContainer.childCount == 0)
-            {
-                AddDynamicOutputPort();
-            }
-        }
-
-        public void AddDynamicOutputPort()
-        {
-            var port = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
-            port.portName = "+"; 
-            outputContainer.Add(port);
-        
-            RefreshPorts();
-            RefreshExpandedState();
-        }
-
-        public void CleanUpPorts()
-        {
-            var allOutputPorts = outputContainer.Query<Port>().ToList();
-        
-            // 1. Сначала переименовываем все подключенные порты в нормальные имена
-            for (int i = 0; i < allOutputPorts.Count; i++)
-            {
-                if (allOutputPorts[i].connected)
-                {
-                    allOutputPorts[i].portName = "Out";
-                }
-            }
-
-            // 2. Схлопываем лишние пустые порты, оставляя только ОДИН "+" в самом конце
-            for (int i = allOutputPorts.Count - 2; i >= 0; i--)
-            {
-                var port = allOutputPorts[i];
-                if (!port.connected)
-                {
-                    outputContainer.Remove(port);
-                }
-            }
-
-            // 3. Если вдруг так вышло, что последний порт перестал быть плюсом (был занят, а пустой исчез), чиним это
-            allOutputPorts = outputContainer.Query<Port>().ToList();
-            if (allOutputPorts.Count == 0 || allOutputPorts.Last().connected)
-            {
-                AddDynamicOutputPort();
-            }
-
-            RefreshPorts();
-            RefreshExpandedState();
-        }
-    }
-    
-    public class ParallelUiNode : GraphViewNode<RuntimeParallelNode>
-    {
-        public ParallelUiNode(RuntimeParallelNode t) : base(t) { }
-
-        protected override void BuildCustomUI()
-        {
-            title = "Parallel Split (Auto-Ports)";
-            style.backgroundColor = new Color(0.3f, 0.3f, 0.15f);
-
-            if (RuntimeTarget.Position == Vector2.zero || outputContainer.childCount == 0)
-            {
-                AddDynamicOutputPort();
-            }
-        }
-
-        public void AddDynamicOutputPort()
-        {
-            var port = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
-            port.portName = "+"; 
-            outputContainer.Add(port);
-        
-            RefreshPorts();
-            RefreshExpandedState();
-        }
-
-        public void CleanUpPorts()
-        {
-            var allOutputPorts = outputContainer.Query<Port>().ToList();
-        
-            // 1. Сначала переименовываем все подключенные порты в нормальные имена
-            for (int i = 0; i < allOutputPorts.Count; i++)
-            {
-                if (allOutputPorts[i].connected)
-                {
-                    allOutputPorts[i].portName = "Out";
-                }
-            }
-
-            // 2. Схлопываем лишние пустые порты, оставляя только ОДИН "+" в самом конце
-            for (int i = allOutputPorts.Count - 2; i >= 0; i--)
-            {
-                var port = allOutputPorts[i];
-                if (!port.connected)
-                {
-                    outputContainer.Remove(port);
-                }
-            }
-
-            // 3. Если вдруг так вышло, что последний порт перестал быть плюсом (был занят, а пустой исчез), чиним это
-            allOutputPorts = outputContainer.Query<Port>().ToList();
-            if (allOutputPorts.Count == 0 || allOutputPorts.Last().connected)
-            {
-                AddDynamicOutputPort();
-            }
-
-            RefreshPorts();
-            RefreshExpandedState();
-        }
-    }
     
     public class ChoiceUiNode : GraphViewNode<RuntimeChoiceNode>
     {
@@ -266,47 +132,12 @@ namespace RubbishPot.Core
         }
     }
     
-    public class StorageUiNode : GraphViewNode<RuntimeStorageNode>
-    {
-        public StorageUiNode(RuntimeStorageNode t) : base(t) { }
-        protected override void BuildCustomUI()
-        {
-            title = "Storage Inject (No Logic)";
-            outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float)));
-        
-            var field = new TextField("Storage Key") { value = RuntimeTarget.DataKey };
-            field.RegisterValueChangedCallback(evt => RuntimeTarget.DataKey = evt.newValue);
-            extensionContainer.Add(field);
-            RefreshExpandedState();
-        }
-    }
-    
-    public class HandOverItemUiNode : GraphViewNode<RuntimeHandOverItemNode>
-    {
-        public HandOverItemUiNode(RuntimeHandOverItemNode t) : base(t) { }
-        protected override void BuildCustomUI()
-        {
-            title = "Hand Over Item (No Logic)";
-            outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float)));
-        }
-    }
-    
     public class CancelOrderUiNode : GraphViewNode<RuntimeCancelOrderNode>
     {
         public CancelOrderUiNode(RuntimeCancelOrderNode t) : base(t) { }
         protected override void BuildCustomUI()
         {
             title = "Cancel Order Handle";
-            outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float)));
-        }
-    }
-    
-    public class AddKnowledgeUiNode : GraphViewNode<RuntimeAddKnowledgeNode>
-    {
-        public AddKnowledgeUiNode(RuntimeAddKnowledgeNode t) : base(t) { }
-        protected override void BuildCustomUI()
-        {
-            title = "Add Knowledge (No Logic)";
             outputContainer.Add(InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float)));
         }
     }

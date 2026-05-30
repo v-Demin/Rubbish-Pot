@@ -18,19 +18,49 @@ namespace RubbishPot.Core
 
         private void OnNodeFinished(NodeFinishedEvent e)
         {
-            var edges = _plotData.Edges.FindAll(ed => ed.OutputNodeID == e.NodeId);
-            foreach (var edge in edges)
+            // Приводим интерфейс к конкретному классу Plot, чтобы получить доступ к текущему стейту
+            if (_plot is Plot runtimePlot)
             {
-                _plot.Execute(edge.InputNodeID); // Вызываем внутренний метод по ID
+                // 1. Сначала ищем локальные связи внутри текущего активного сабстейта
+                if (runtimePlot.ActiveSubState != null)
+                {
+                    var localEdges = runtimePlot.ActiveSubState.Edges.FindAll(ed => ed.OutputNodeID == e.NodeId);
+                    foreach (var edge in localEdges)
+                    {
+                        _plot.Execute(edge.InputNodeID);
+                    }
+                    
+                    // Если нашли локальные переходы, значит мы внутри диалога/цепочки команд, выходим
+                    if (localEdges.Count > 0) return; 
+                }
+
+                // 2. Если локальных связей нет, значит локальный граф завершился (например, дошли до ExitNode),
+                // и это сигнал для выхода на глобальную карту связей верхнего уровня
+                var globalEdges = _plotData.GlobalEdges.FindAll(ed => ed.OutputNodeID == e.NodeId);
+                foreach (var edge in globalEdges)
+                {
+                    var nextGlobalNode = _plotData.GlobalNodes.Find(n => n.ID == edge.InputNodeID);
+                    if (nextGlobalNode != null)
+                    {
+                        // Переключаем глобальную ноду на верхнем уровне
+                        runtimePlot.ExecuteGlobalNode(nextGlobalNode);
+                    }
+                }
             }
         }
 
         private void OnNodeBranch(NodeBranchEvent e)
         {
-            var edge = _plotData.Edges.Find(ed => ed.OutputNodeID == e.NodeId && ed.OutputPortIndex == e.BranchIndex);
-            if (edge != null)
+            // Ветки выбора (BranchIndex для ChoiceNode) всегда работают локально внутри сабстейтов
+            if (_plot is Plot runtimePlot && runtimePlot.ActiveSubState != null)
             {
-                _plot.Execute(edge.InputNodeID); // Вызываем внутренний метод по ID
+                var edge = runtimePlot.ActiveSubState.Edges.Find(ed => 
+                    ed.OutputNodeID == e.NodeId && ed.OutputPortIndex == e.BranchIndex);
+                    
+                if (edge != null)
+                {
+                    _plot.Execute(edge.InputNodeID);
+                }
             }
         }
 
