@@ -1,13 +1,16 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace RubbishPot.Core
 {
-
+    #region Commands
+    
     public interface ICommand
     {
     }
-
-// Базовая команда ноды (чтобы система знала, какая именно нода её вызвала)
+    
+    // Базовая команда ноды (чтобы система знала, какая именно нода её вызвала)
     public abstract class BaseNodeCommand : ICommand
     {
         public string NodeId { get; protected set; }
@@ -22,18 +25,6 @@ namespace RubbishPot.Core
         {
             NodeId = nodeId;
             Text = text;
-        }
-    }
-
-// 2. Анимация
-    public class PlayAnimationCommand : BaseNodeCommand
-    {
-        public string AnimationName { get; }
-
-        public PlayAnimationCommand(string nodeId, string animName)
-        {
-            NodeId = nodeId;
-            AnimationName = animName;
         }
     }
 
@@ -98,4 +89,63 @@ namespace RubbishPot.Core
             NodeId = nodeId;
         }
     }
+    
+    public class PreloadScenarioResourcesCommand : ICommand
+    {
+        public List<LoadedCharacterData> Characters { get; }
+        public List<string> Backgrounds { get; }
+    
+        public PreloadScenarioResourcesCommand(List<LoadedCharacterData> characters, List<string> backgrounds)
+        {
+            Characters = characters;
+            Backgrounds = backgrounds;
+        }
+    }
+
+    #endregion
+    
+    #region Subcommands
+    
+    public interface ISubCommand : ICommand
+    {
+    }
+
+    [System.Serializable]
+    public class PlayShowAnimationCommand : ISubCommand
+    {
+        [SerializeField] private LoadedCharacterData _characterData;
+        [SerializeField] private Character.ShowType _showType;
+
+        public LoadedCharacterData CharacterInfo => _characterData;
+        public Character.ShowType Animation => _showType;
+
+        public PlayShowAnimationCommand() { }
+        public PlayShowAnimationCommand(LoadedCharacterData characterInfo, Character.ShowType animation)
+        {
+            _characterData = characterInfo;
+            _showType = animation;
+        }
+    }
+    
+    [System.Serializable]
+    public class PlayEmotionAnimationCommand : ISubCommand
+    {
+        [SerializeField] private LoadedCharacterData _characterData;
+        [SerializeField] private Character.AnimationState _emotion;
+        [SerializeField] private bool _fast = false;
+        
+        public LoadedCharacterData CharacterInfo => _characterData;
+        public Character.AnimationState Animation => _emotion;
+        public bool Fast => _fast;
+    
+        public PlayEmotionAnimationCommand() { }
+        public PlayEmotionAnimationCommand(LoadedCharacterData characterInfo, Character.AnimationState animation, bool fast)
+        {
+            _characterData = characterInfo;
+            _emotion = animation;
+            _fast = fast;
+        }
+    }
+    
+    #endregion
 }

@@ -1,6 +1,6 @@
 namespace RubbishPot.Core
 {
-public interface INodeHandler { void Handle(RuntimeNode node); }
+    public interface INodeHandler { void Handle(RuntimeNode node); }
 
     // Специфичные интерфейсы управления для интерактивных нод
     public interface IPhraseNodeHandler { void CompletePhrase(string nodeId); }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -15,9 +16,10 @@ namespace RubbishPot.Core
         private VisualElement _rightInspectorPanel;
         
         private PlotAsset _currentAsset;
-        // Публичный геттер, чтобы граф мог вызывать EditorUtility.SetDirty
         public PlotAsset CurrentAsset => _currentAsset;
         private Label _assetLabel;
+
+        private RuntimeGlobalNode _activeGlobalNode;
 
         [MenuItem("Tools/State Machine Editor")]
         public static void Open() => GetWindow<StateMachineEditorWindow>("State Machine");
@@ -31,15 +33,16 @@ namespace RubbishPot.Core
             { 
                 style = 
                 { 
-                    width = 250, 
+                    width = 290, 
                     paddingLeft = 10,
                     paddingRight = 10,
                     paddingTop = 10,
-                    paddingBottom = 10
+                    paddingBottom = 10,
+                    borderLeftWidth = 1,
+                    borderLeftColor = new Color(0.15f, 0.15f, 0.15f)
                 } 
             };
-            _rightInspectorPanel.Add(new Label("Инспектор ноды") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
-
+            
             var leftVerticalSplitter = new TwoPaneSplitView(0, 300, TwoPaneSplitViewOrientation.Vertical);
             leftVerticalSplitter.Add(_topGraphView);
             leftVerticalSplitter.Add(_bottomGraphView);
@@ -57,6 +60,7 @@ namespace RubbishPot.Core
         public void LoadAsset(PlotAsset asset)
         {
             _currentAsset = asset;
+            _activeGlobalNode = null;
             _assetLabel.text = asset != null ? $"Активный сценарий: {asset.name}" : "Ассет не выбран";
 
             if (_currentAsset != null && _currentAsset.Data != null)
@@ -68,29 +72,232 @@ namespace RubbishPot.Core
             UpdateInspector(null);
         }
 
-        public void SetActiveSubState(RuntimeSubState subState)
+        public void SetActiveSubState(RuntimeGlobalNode parentGlobalNode, RuntimeSubState subState)
         {
+            _activeGlobalNode = parentGlobalNode;
             _bottomGraphView.PopulateView(subState);
         }
 
+        /// <summary>
+        /// Отрисовка полей в инспекторе
+        /// </summary>
         public void UpdateInspector(object targetRuntimeObject)
         {
-            while (_rightInspectorPanel.childCount > 1)
-            {
-                _rightInspectorPanel.RemoveAt(1);
-            }
+            _rightInspectorPanel.Clear();
+            _rightInspectorPanel.Add(new Label("ИНСПЕКТОР СВОЙСТВ") { 
+                style = { unityFontStyleAndWeight = FontStyle.Bold, marginBottom = 10, fontSize = 12, opacity = 0.7f } 
+            });
 
             if (targetRuntimeObject == null)
             {
-                _rightInspectorPanel.Add(new Label("Ничего не выбрано"));
+                _rightInspectorPanel.Add(new Label("Ничего не выбрано") { style = { opacity = 0.4f, unityTextAlign = TextAnchor.MiddleCenter, marginTop = 20 } });
                 return;
             }
 
-            _rightInspectorPanel.Add(new Label($"Тип данных: {targetRuntimeObject.GetType().Name}"));
-            
-            if (targetRuntimeObject is RuntimeNode node)
+            // Поиск мастер-конфига игры
+            string[] guids = AssetDatabase.FindAssets("t:StoryConfig");
+            StoryConfig config = null;
+            if (guids.Length > 0) config = AssetDatabase.LoadAssetAtPath<StoryConfig>(AssetDatabase.GUIDToAssetPath(guids[0]));
+
+            if (config == null)
             {
-                _rightInspectorPanel.Add(new Label($"ID: {node.ID}"));
+                _rightInspectorPanel.Add(new Label("⚠️ Ошибка: Создайте файл StoryConfig в проекте!") { style = { color = Color.yellow, whiteSpace = WhiteSpace.Normal, marginTop = 10 } });
+                return;
+            }
+
+            // --- КЕЙС 1: ВЫБРАНА ГЛОБАЛЬНАЯ НОДА ---
+            if (targetRuntimeObject is RuntimeGlobalNode globalNode)
+            {
+                _rightInspectorPanel.Add(new Label($"ГЛОБАЛЬНЫЙ ЭТАП: {globalNode.GetType().Name}") { style = { fontSize = 10, opacity = 0.5f, marginBottom = 5 } });
+                
+                var nameField = new TextField("Название этапа") { value = globalNode.Name };
+                nameField.RegisterValueChangedCallback(evt => {
+                    globalNode.Name = evt.newValue;
+                    if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                    _topGraphView.Refresh(_currentAsset.Data.GlobalNodes);
+                });
+                _rightInspectorPanel.Add(nameField);
+
+                // ИСПРАВЛЕНО: Управление персонажами и фонами доступно ИСКЛЮЧИТЕЛЬНО в ноде Входа (Enter)
+                if (globalNode is GlobalEntryNode entryNode)
+                {
+                    _rightInspectorPanel.Add(new VisualElement { style = { height = 1, backgroundColor = new Color(0.3f, 0.3f, 0.3f), marginTop = 10, marginBottom = 10 } });
+
+                    // 1. Управление персонажами на уровне всего сценария
+                    _rightInspectorPanel.Add(new Label("Доступные персонажи сценария:") { style = { unityFontStyleAndWeight = FontStyle.Bold, marginBottom = 3 } });
+                    if (entryNode.PreloadedCharacters == null) entryNode.PreloadedCharacters = new List<LoadedCharacterData>();
+                    
+                    foreach (var loadedChar in entryNode.PreloadedCharacters.ToList())
+                    {
+                        var row = new VisualElement { style = { flexDirection = FlexDirection.Row, justifyContent = Justify.SpaceBetween, marginTop = 3 } };
+                        
+                        var charChoices = config.Characters.Select(c => c.CharacterID).ToList();
+                        var charDropdown = new DropdownField(charChoices, loadedChar.CharacterID);
+                        charDropdown.style.flexGrow = 1;
+                        charDropdown.RegisterValueChangedCallback(evt => {
+                            loadedChar.CharacterID = evt.newValue;
+                            var matchedChar = config.Characters.FirstOrDefault(c => c.CharacterID == evt.newValue);
+                            loadedChar.SelectedVariant = matchedChar?.Variants?.FirstOrDefault() ?? "Base";
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                            UpdateInspector(entryNode); 
+                        });
+                        row.Add(charDropdown);
+
+                        var currentConfigChar = config.Characters.FirstOrDefault(c => c.CharacterID == loadedChar.CharacterID);
+                        var variantChoices = currentConfigChar?.Variants ?? new List<string> { "Base" };
+                        var varDropdown = new DropdownField(variantChoices, loadedChar.SelectedVariant);
+                        varDropdown.style.width = 90;
+                        varDropdown.style.marginLeft = 4;
+                        varDropdown.RegisterValueChangedCallback(evt => {
+                            loadedChar.SelectedVariant = evt.newValue;
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                        });
+                        row.Add(varDropdown);
+
+                        var delBtn = new Button(() => {
+                            entryNode.PreloadedCharacters.Remove(loadedChar);
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                            UpdateInspector(entryNode);
+                        }) { text = "❌" };
+                        row.Add(delBtn);
+
+                        _rightInspectorPanel.Add(row);
+                    }
+
+                    var addCharBtn = new Button(() => {
+                        if (config.Characters.Count > 0) {
+                            var first = config.Characters[0];
+                            entryNode.PreloadedCharacters.Add(new LoadedCharacterData { 
+                                CharacterID = first.CharacterID, 
+                                SelectedVariant = first.Variants.FirstOrDefault() ?? "Base" 
+                            });
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                            UpdateInspector(entryNode);
+                        }
+                    }) { text = "➕ Добавить Персонажа", style = { marginTop = 5 } };
+                    _rightInspectorPanel.Add(addCharBtn);
+
+                    // 2. Управление фонами на уровне всего сценария
+                    _rightInspectorPanel.Add(new Label("Доступные фоны сценария:") { style = { marginTop = 15, unityFontStyleAndWeight = FontStyle.Bold, marginBottom = 3 } });
+                    if (entryNode.PreloadedBackgrounds == null) entryNode.PreloadedBackgrounds = new List<string>();
+
+                    foreach (var bgVar in entryNode.PreloadedBackgrounds.ToList())
+                    {
+                        var row = new VisualElement { style = { flexDirection = FlexDirection.Row, justifyContent = Justify.SpaceBetween, marginTop = 3 } };
+                        
+                        var bgDropdown = new DropdownField(config.BackgroundVariants, bgVar);
+                        bgDropdown.style.flexGrow = 1;
+                        bgDropdown.RegisterValueChangedCallback(evt => {
+                            int idx = entryNode.PreloadedBackgrounds.IndexOf(bgVar);
+                            if (idx != -1) entryNode.PreloadedBackgrounds[idx] = evt.newValue;
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                        });
+                        row.Add(bgDropdown);
+
+                        var delBgBtn = new Button(() => {
+                            entryNode.PreloadedBackgrounds.Remove(bgVar);
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                            UpdateInspector(entryNode);
+                        }) { text = "❌" };
+                        row.Add(delBgBtn);
+
+                        _rightInspectorPanel.Add(row);
+                    }
+
+                    var addBgBtn = new Button(() => {
+                        if (config.BackgroundVariants.Count > 0) {
+                            entryNode.PreloadedBackgrounds.Add(config.BackgroundVariants[0]);
+                            if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                            UpdateInspector(entryNode);
+                        }
+                    }) { text = "➕ Добавить Вариант Фона", style = { marginTop = 5 } };
+                    _rightInspectorPanel.Add(addBgBtn);
+                }
+                return;
+            }
+
+            // --- КЕЙС 2: ВЫБРАНА НОДА РЕПЛИКИ (RuntimePhraseNode) ---
+            if (targetRuntimeObject is RuntimePhraseNode phraseNode)
+            {
+                _rightInspectorPanel.Add(new Label("ЛОКАЛЬНАЯ РЕПЛИКА") { style = { unityFontStyleAndWeight = FontStyle.Bold, marginTop = 5, marginBottom = 5 } });
+
+                // ИСПРАВЛЕНО: Ищем ноду Входа (Enter) в текущем ассете для получения ограничений
+                var masterEntryNode = _currentAsset?.Data?.GlobalNodes?.FirstOrDefault(n => n is GlobalEntryNode) as GlobalEntryNode;
+                
+                if (masterEntryNode == null)
+                {
+                    _rightInspectorPanel.Add(new Label("❌ Ошибка: В сценарии не найдена глобальная нода Входа!") { style = { color = Color.red } });
+                    return;
+                }
+
+                // Ограничение персонажей по ноде Входа
+                var allowedChars = masterEntryNode.PreloadedCharacters.Select(c => c.CharacterID).ToList();
+                if (allowedChars.Count > 0)
+                {
+                    if (string.IsNullOrEmpty(phraseNode.SpeakerCharacterID) || !allowedChars.Contains(phraseNode.SpeakerCharacterID))
+                    {
+                        phraseNode.SpeakerCharacterID = allowedChars[0];
+                    }
+
+                    var charDropdown = new DropdownField("Кто говорит", allowedChars, phraseNode.SpeakerCharacterID);
+                    charDropdown.RegisterValueChangedCallback(evt => {
+                        phraseNode.SpeakerCharacterID = evt.newValue;
+                        var matchedSetup = masterEntryNode.PreloadedCharacters.FirstOrDefault(c => c.CharacterID == evt.newValue);
+                        phraseNode.SpeakerVariant = matchedSetup?.SelectedVariant ?? "Base";
+                        if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                        UpdateInspector(phraseNode); 
+                    });
+                    _rightInspectorPanel.Add(charDropdown);
+
+                    var matchedSetup = masterEntryNode.PreloadedCharacters.FirstOrDefault(c => c.CharacterID == phraseNode.SpeakerCharacterID);
+                    phraseNode.SpeakerVariant = matchedSetup?.SelectedVariant ?? "Base";
+                    _rightInspectorPanel.Add(new Label($"Вариант (задан на Входе): {phraseNode.SpeakerVariant}") { 
+                        style = { opacity = 0.5f, fontSize = 11, marginLeft = 3, marginBottom = 8 } 
+                    });
+                }
+                else
+                {
+                    _rightInspectorPanel.Add(new Label("⚠️ На ноде Входа не настроено ни одного персонажа!") { style = { color = Color.yellow, fontSize = 11, marginBottom = 8 } });
+                }
+
+                // Ограничение фонов по ноде Входа
+                var allowedBgs = masterEntryNode.PreloadedBackgrounds;
+                if (allowedBgs != null && allowedBgs.Count > 0)
+                {
+                    if (string.IsNullOrEmpty(phraseNode.ActiveBackgroundVariant) || !allowedBgs.Contains(phraseNode.ActiveBackgroundVariant))
+                    {
+                        phraseNode.ActiveBackgroundVariant = allowedBgs[0];
+                    }
+
+                    var bgDropdown = new DropdownField("Состояние фона", allowedBgs, phraseNode.ActiveBackgroundVariant);
+                    bgDropdown.RegisterValueChangedCallback(evt => {
+                        phraseNode.ActiveBackgroundVariant = evt.newValue;
+                        if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                    });
+                    _rightInspectorPanel.Add(bgDropdown);
+                }
+                else
+                {
+                    _rightInspectorPanel.Add(new Label("⚠️ На ноде Входа не добавлены варианты фонов!") { style = { color = Color.yellow, fontSize = 11, marginBottom = 8 } });
+                }
+
+                // Текст реплики
+                var textField = new TextField("Текст реплики") { value = phraseNode.Text, multiline = true };
+                textField.style.height = 70;
+                textField.style.marginTop = 10;
+                textField.RegisterValueChangedCallback(evt => {
+                    phraseNode.Text = evt.newValue;
+                    if (_currentAsset != null) EditorUtility.SetDirty(_currentAsset);
+                });
+                _rightInspectorPanel.Add(textField);
+                return;
+            }
+
+            // --- КЕЙС 3: Системные ноды подграфа ---
+            if (targetRuntimeObject is RuntimeNode baseNode)
+            {
+                _rightInspectorPanel.Add(new Label($"Нода подграфа: {baseNode.GetType().Name}") { style = { unityFontStyleAndWeight = FontStyle.Bold } });
+                _rightInspectorPanel.Add(new Label($"ID: {baseNode.ID}") { style = { fontSize = 9, opacity = 0.5f, marginTop = 4 } });
             }
         }
 

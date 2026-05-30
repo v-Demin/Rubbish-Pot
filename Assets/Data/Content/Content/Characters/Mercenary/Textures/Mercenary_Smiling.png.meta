@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c6255f4ca3467da45b2df80031294fb3
+guid: e7b21587625ad8b40a6db3b60a2dc64f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -825435822336349858
-    second: Gemini_Generated_Image_52jeui52jeui52je_0
+      213: -3761761948935312481
+    second: Mercenary_Happy_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.08}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_52jeui52jeui52je_0
+      name: Mercenary_Happy_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 688
-        height: 1518
+        x: 154
+        y: 133
+        width: 670
+        height: 1526
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5962c03e767b84f0800000000000000
-      internalID: -825435822336349858
+      spriteID: f9b212820798bcbc0800000000000000
+      internalID: -3761761948935312481
       vertices: []
       indices: 
       edges: []
@@ -125,8 +125,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
-    internalID: 0
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_52jeui52jeui52je_0: -825435822336349858
+      Mercenary_Happy_0: -3761761948935312481
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

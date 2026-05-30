@@ -30,6 +30,11 @@ MonoBehaviour:
         ID: d1789594-afe0-445d-aa30-ab4289efe4d9
         Position: {x: 0, y: 0}
         Name: "\u0412\u0445\u043E\u0434"
+        PreloadedCharacters:
+        - CharacterID: Mercenary
+          SelectedVariant: Default
+        PreloadedBackgrounds:
+        - Day
         SubStates:
         - rid: 6965225380553162899
         ActiveSubStateID: 
@@ -39,6 +44,8 @@ MonoBehaviour:
         ID: 20bdecaa-11da-46af-9844-9f9474ed4943
         Position: {x: 0, y: 0}
         Name: "\u0412\u044B\u0445\u043E\u0434"
+        PreloadedCharacters: []
+        PreloadedBackgrounds: []
         SubStates: []
         ActiveSubStateID: 
     - rid: 6965225380553162899
@@ -62,10 +69,6 @@ MonoBehaviour:
           InputNodeID: 8b9b0b5c-06dc-4eeb-a962-51bf2095e7de
           PortName: 
           OutputPortIndex: 0
-        - OutputNodeID: 8b9b0b5c-06dc-4eeb-a962-51bf2095e7de
-          InputNodeID: 55a559c5-2edc-4fab-9ebc-2d092d46cb4b
-          PortName: 
-          OutputPortIndex: 1
         - OutputNodeID: 55a559c5-2edc-4fab-9ebc-2d092d46cb4b
           InputNodeID: 006fff94-3f80-4e7c-991e-b976ecc2a65d
           PortName: 
@@ -78,6 +81,10 @@ MonoBehaviour:
           InputNodeID: 006fff94-3f80-4e7c-991e-b976ecc2a65d
           PortName: 
           OutputPortIndex: 0
+        - OutputNodeID: 8b9b0b5c-06dc-4eeb-a962-51bf2095e7de
+          InputNodeID: 55a559c5-2edc-4fab-9ebc-2d092d46cb4b
+          PortName: 
+          OutputPortIndex: 1
     - rid: 6965225380553162900
       type: {class: RuntimeEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
@@ -95,7 +102,12 @@ MonoBehaviour:
       data:
         ID: e83bbe18-cc77-4ad8-9ab5-1af4b467c4a5
         Position: {x: 401, y: 260}
-        SubCommands: []
+        SubCommands:
+        - rid: 6965225429692579955
+        - rid: 6965225429692579966
+        SpeakerCharacterID: Mercenary
+        SpeakerVariant: Default
+        ActiveBackgroundVariant: Day
         Text: "\u0424\u0440\u0430\u0437\u0430 1"
     - rid: 6965225429692579840
       type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
@@ -111,12 +123,59 @@ MonoBehaviour:
       data:
         ID: 55a559c5-2edc-4fab-9ebc-2d092d46cb4b
         Position: {x: 777, y: 407}
-        SubCommands: []
+        SubCommands:
+        - rid: 6965225429692579973
+        - rid: 6965225429692580002
+        SpeakerCharacterID: Mercenary
+        SpeakerVariant: Default
+        ActiveBackgroundVariant: Day
         Text: "\u0420\u0435\u0430\u043A\u0446\u0438\u044F 2"
     - rid: 6965225429692579842
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: f1d5bdf5-0b7b-4279-8c56-1fb59b3901a0
         Position: {x: 843, y: 192}
-        SubCommands: []
+        SubCommands:
+        - rid: 6965225429692579972
+        SpeakerCharacterID: Mercenary
+        SpeakerVariant: Default
+        ActiveBackgroundVariant: Day
         Text: "\u0420\u0435\u0430\u043A\u0446\u0438\u044F 1"
+    - rid: 6965225429692579955
+      type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        _characterData:
+          CharacterID: Mercenary
+          SelectedVariant: Default
+        _emotion: 0
+        _fast: 1
+    - rid: 6965225429692579966
+      type: {class: PlayShowAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        _characterData:
+          CharacterID: Mercenary
+          SelectedVariant: Default
+        _showType: 1
+    - rid: 6965225429692579972
+      type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        _characterData:
+          CharacterID: Mercenary
+          SelectedVariant: Default
+        _emotion: 2
+        _fast: 0
+    - rid: 6965225429692579973
+      type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        _characterData:
+          CharacterID: Mercenary
+          SelectedVariant: Default
+        _emotion: 1
+        _fast: 0
+    - rid: 6965225429692580002
+      type: {class: PlayShowAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
+      data:
+        _characterData:
+          CharacterID: 
+          SelectedVariant: 
+        _showType: 0

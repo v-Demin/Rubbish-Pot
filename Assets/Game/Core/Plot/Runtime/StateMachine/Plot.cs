@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -46,6 +45,11 @@ namespace RubbishPot.Core
                 Debug.LogError($"[Plot] Ошибка старта '{Name}': В глобальных данных отсутствует GlobalEntryNode!");
                 return;
             }
+            
+            EventBus.Raise(new PreloadScenarioResourcesCommand(
+                entryGlobalNode.PreloadedCharacters, 
+                entryGlobalNode.PreloadedBackgrounds
+            ));
 
             // 2. Переходим на эту глобальную ноду
             ExecuteGlobalNode(entryGlobalNode);
@@ -111,6 +115,11 @@ namespace RubbishPot.Core
                 return;
             }
 
+            foreach (var command in node.SubCommands)
+            {
+                EventBus.Raise(command);
+            }
+            
             _registry.GetHandler(node).Handle(node);
         }
     }

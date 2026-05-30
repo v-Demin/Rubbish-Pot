@@ -79,10 +79,6 @@ namespace RubbishPot.Core
                 Debug.Log($"<color=cyan>[PLAY PHRASE]</color> Node ID: {cmd.NodeId} | Текст: \"{cmd.Text}\"");
             });
 
-            EventBus.Subscribe<PlayAnimationCommand>(cmd => {
-                Debug.Log($"<color=orange>[ANIMATION]</color> Node ID: {cmd.NodeId} | Запуск анимации: {cmd.AnimationName}");
-            });
-
             EventBus.Subscribe<ShowPlayerChoicesCommand>(cmd => {
                 Debug.Log($"<color=yellow>[PLAYER CHOICES]</color> Node ID: {cmd.NodeId} | Ожидание выбора (Нажми 1-{cmd.Choices.Count}):");
                 for (int i = 0; i < cmd.Choices.Count; i++)

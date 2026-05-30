@@ -33,13 +33,16 @@ namespace RubbishPot.Core
 
             foreach (var subState in Target.SubStates)
             {
+                if (subState == null) continue;
+
                 var btn = new Button(() => 
                 {
-                    // ИСПРАВЛЕНО: передаем только subState, как требует StateMachineEditorWindow
-                    _window.SetActiveSubState(subState);
+                    // ИСПРАВЛЕНО: Передаем саму глобальную ноду (Target) и целевой сабстейт
+                    _window.SetActiveSubState(Target, subState);
+                    _window.UpdateInspector(subState);
                 }) 
                 { 
-                    // ИСПРАВЛЕНО: берем человекочитаемое имя сабстейта из его поля Name
+                    // Берем человекочитаемое имя сабстейта из его поля Name
                     text = $"-> {subState.Name}" 
                 };
                 

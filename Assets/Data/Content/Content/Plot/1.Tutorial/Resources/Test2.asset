@@ -13,53 +13,42 @@ MonoBehaviour:
   m_Name: Test2
   m_EditorClassIdentifier: RubbishPot.Core::RubbishPot.Core.PlotAsset
   Data:
-    Nodes:
-    - rid: 6965225320961278192
-    - rid: 6965225320961278194
-    - rid: 6965225320961278193
-    - rid: 6965225320961278205
-    Edges:
-    - OutputNodeID: 9e29aac6-c652-4e82-99e6-17d460824f97
-      InputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
-      PortName: Single
+    GlobalNodes:
+    - rid: 6965225429692580012
+    - rid: 6965225429692580013
+    GlobalEdges:
+    - OutputNodeID: cd404d56-de0c-4011-af3c-3486c37d6855
+      InputNodeID: 72b83fb2-8757-47bd-b141-3221d68749d4
+      PortName: 
       OutputPortIndex: 0
-    - OutputNodeID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
-      InputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
-      PortName: Single
-      OutputPortIndex: 0
-    - OutputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
-      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
-      PortName: "\u041D\u044F\u043C"
-      OutputPortIndex: 0
-    - OutputNodeID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
-      InputNodeID: 1e547dab-5072-4a25-865e-123daa0edcb4
-      PortName: "\u041D\u044F\u043C-\u043D\u044F\u043C"
-      OutputPortIndex: 1
   references:
     version: 2
     RefIds:
-    - rid: 6965225320961278192
-      type: {class: RuntimeEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+    - rid: 6965225429692580012
+      type: {class: GlobalEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 9e29aac6-c652-4e82-99e6-17d460824f97
-        Position: {x: 100, y: 200}
-    - rid: 6965225320961278193
-      type: {class: RuntimeExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+        ID: cd404d56-de0c-4011-af3c-3486c37d6855
+        Position: {x: 0, y: 0}
+        Name: "\u0412\u0445\u043E\u0434"
+        PreloadedCharacters: []
+        PreloadedBackgrounds: []
+        SubStates:
+        - rid: 6965225429692580014
+        ActiveSubStateID: 
+    - rid: 6965225429692580013
+      type: {class: GlobalExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 1e547dab-5072-4a25-865e-123daa0edcb4
-        Position: {x: 862, y: 200}
-    - rid: 6965225320961278194
-      type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+        ID: 72b83fb2-8757-47bd-b141-3221d68749d4
+        Position: {x: 0, y: 0}
+        Name: "\u0412\u044B\u0445\u043E\u0434"
+        PreloadedCharacters: []
+        PreloadedBackgrounds: []
+        SubStates: []
+        ActiveSubStateID: 
+    - rid: 6965225429692580014
+      type: {class: BriefingSubState, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 17d767ef-6ff5-4823-8e3f-b104d6c4b8ee
-        Position: {x: 272, y: 200}
-        Text: "\u041C\u043D\u0435 \u043E\u0442\u043A\u0443\u0441\u0438\u043B\u0438
-          \u0436\u043E\u043F\u0443"
-    - rid: 6965225320961278205
-      type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
-      data:
-        ID: 4274cd49-33c3-4d39-b28f-83fb20ff58bb
-        Position: {x: 575, y: 200}
-        Choices:
-        - "\u041D\u044F\u043C"
-        - "\u041D\u044F\u043C-\u043D\u044F\u043C"
+        ID: e1c9e5bc-d1a3-4461-a5e7-4ea52baecabf
+        Name: Briefing
+        Nodes: []
+        Edges: []

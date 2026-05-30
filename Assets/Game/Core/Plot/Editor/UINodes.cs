@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine.UIElements;
 
 namespace RubbishPot.Core
@@ -90,30 +89,112 @@ namespace RubbishPot.Core
     
     public class ChoiceUiNode : GraphViewNode<RuntimeChoiceNode>
     {
+        private Button _addBtn;
+
         public ChoiceUiNode(RuntimeChoiceNode t) : base(t) { }
+
         protected override void BuildCustomUI()
         {
             title = "Player Choice";
-            var btn = new Button(() => AddChoicePort("")) { text = "Add Option" };
-            titleContainer.Add(btn);
+            
+            // Инициализируем кнопку добавления и сохраняем на неё ссылку
+            _addBtn = new Button(() => CreateAndRegisterNewChoice()) { text = "Add Option" };
+            titleContainer.Add(_addBtn);
 
-            foreach (var choice in RuntimeTarget.Choices) AddChoicePort(choice);
+            // Отрисовываем уже существующие порты
+            foreach (var choice in RuntimeTarget.Choices) 
+            {
+                BuildChoicePortUI(choice);
+            }
+
+            // Проверяем лимит при первой загрузке ноды
+            UpdateAddButtonState();
         }
 
-        private void AddChoicePort(string val)
+        /// <summary>
+        /// Безопасное добавление нового варианта (с проверкой лимита)
+        /// </summary>
+        private void CreateAndRegisterNewChoice()
+        {
+            if (RuntimeTarget.Choices.Count >= 4) return;
+
+            RuntimeTarget.Choices.Add(""); 
+            BuildChoicePortUI("");
+            
+            // Обновляем состояние кнопки после добавления
+            UpdateAddButtonState();
+        }
+
+        /// <summary>
+        /// Отрисовка порта с текстовым полем и кнопкой удаления
+        /// </summary>
+        private void BuildChoicePortUI(string val)
         {
             var port = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
+            
+            // Текстовое поле ответа
             var field = new TextField { value = val };
+            field.style.flexGrow = 1; // Растягиваем поле, чтобы оно занимало всё доступное место
+            
             field.RegisterValueChangedCallback(evt => {
                 int idx = outputContainer.IndexOf(port);
-                RuntimeTarget.Choices[idx] = evt.newValue;
-                port.portName = evt.newValue;
+                if (idx >= 0 && idx < RuntimeTarget.Choices.Count)
+                {
+                    RuntimeTarget.Choices[idx] = evt.newValue;
+                    port.portName = evt.newValue;
+                }
             });
+
+            // Кнопка удаления ("X")
+            var deleteBtn = new Button(() => DeleteChoicePort(port)) { text = "X" };
+            deleteBtn.style.color = Color.red;
+            deleteBtn.style.backgroundColor = new Color(0.25f, 0.1f, 0.1f);
+            deleteBtn.style.marginLeft = 4;
+
+            // Складываем всё в контейнер порта
             port.contentContainer.Add(field);
+            port.contentContainer.Add(deleteBtn);
+            
             outputContainer.Add(port);
 
-            if (string.IsNullOrEmpty(val)) RuntimeTarget.Choices.Add("");
-            RefreshPorts(); RefreshExpandedState();
+            RefreshPorts(); 
+            RefreshExpandedState();
+        }
+
+        /// <summary>
+        /// Метод удаления конкретного порта и чистки рантайм-данных
+        /// </summary>
+        private void DeleteChoicePort(Port port)
+        {
+            // Находим точный индекс порта в контейнере прямо сейчас
+            int idx = outputContainer.IndexOf(port);
+            
+            if (idx >= 0 && idx < RuntimeTarget.Choices.Count)
+            {
+                RuntimeTarget.Choices.RemoveAt(idx);
+            }
+            
+            // Удаляем сам порт из интерфейса GraphView
+            outputContainer.Remove(port);
+            
+            // Перерисовываем связи и интерфейс ноды
+            RefreshPorts(); 
+            RefreshExpandedState();
+            
+            // Включаем кнопку добавления обратно, если вариантов стало меньше 4
+            UpdateAddButtonState();
+        }
+
+        /// <summary>
+        /// Проверка лимита на 4 опции
+        /// </summary>
+        private void UpdateAddButtonState()
+        {
+            if (_addBtn != null)
+            {
+                // SetEnabled(true) если меньше 4, иначе кнопка становится серой и некликабельной
+                _addBtn.SetEnabled(RuntimeTarget.Choices.Count < 4);
+            }
         }
     }
     

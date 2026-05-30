@@ -11,8 +11,9 @@ namespace RubbishPot.Core
         public Vector2 Position;
         public string Name;
 
-        // Сабстейты этой глобальной ноды (среднее окно)
-        // Unity запишет их полиморфно благодаря [SerializeReference]
+        public List<LoadedCharacterData> PreloadedCharacters = new();
+        public List<string> PreloadedBackgrounds = new();
+        
         [SerializeReference] 
         public List<RuntimeSubState> SubStates = new();
         
@@ -28,7 +29,6 @@ namespace RubbishPot.Core
         public GlobalEntryNode()
         {
             Name = "Вход";
-            // Жестко определяем структуру: 3 сабстейта
             SubStates.Add(new BriefingSubState());
         }
     }

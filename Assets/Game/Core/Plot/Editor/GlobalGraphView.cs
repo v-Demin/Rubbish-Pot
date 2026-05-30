@@ -182,40 +182,40 @@ namespace RubbishPot.Core
             bool isStart = node is GlobalEntryNode;
             bool isEnd = node is GlobalExitNode;
 
-            // Кнопка Briefing генерируется ТОЛЬКО у Глобального Входа (Enter)
-            if (isStart && node is GlobalEntryNode entryNode)
+            // --- ИСПРАВЛЕНО: Рендерим кнопки ТОЛЬКО если у ноды ПРЯМО СЕЙЧАС есть сабстейты ---
+            if (node.SubStates != null && node.SubStates.Count > 0)
             {
                 var subStateContainer = new VisualElement();
                 subStateContainer.style.marginTop = 5;
                 subStateContainer.style.marginBottom = 10;
-                
-                if (entryNode.SubStates.Count == 0)
+
+                foreach (var subState in node.SubStates)
                 {
-                    entryNode.SubStates.Add(new BriefingSubState());
+                    if (subState == null) continue;
+
+                    var btn = new Button(() =>
+                    {
+                        // Передаем ТЕКУЩУЮ глобальную ноду как родителя, и сам сабстейт
+                        Window.SetActiveSubState(node, subState);
+                        Window.UpdateInspector(subState); 
+                    })
+                    {
+                        text = $"-> {subState.Name}"
+                    };
+
+                    btn.style.unityTextAlign = TextAnchor.MiddleLeft;
+                    btn.style.fontSize = 11;
+                    btn.style.marginTop = 2; btn.style.marginBottom = 2;
+                    btn.style.paddingLeft = 5;
+
+                    btn.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+                    btn.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
+                    btn.RegisterCallback<MouseDownEvent>(evt => evt.StopPropagation());
+                    btn.RegisterCallback<MouseUpEvent>(evt => evt.StopPropagation());
+
+                    subStateContainer.Add(btn);
                 }
-
-                var subState = entryNode.SubStates.First();
-
-                var btn = new Button(() =>
-                {
-                    Window.SetActiveSubState(subState);
-                    Window.UpdateInspector(subState); 
-                })
-                {
-                    text = $"-> {subState.Name}"
-                };
-
-                btn.style.unityTextAlign = TextAnchor.MiddleLeft;
-                btn.style.fontSize = 11;
-                btn.style.marginTop = 2; btn.style.marginBottom = 2;
-                btn.style.paddingLeft = 5;
-
-                btn.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-                btn.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
-                btn.RegisterCallback<MouseDownEvent>(evt => evt.StopPropagation());
-                btn.RegisterCallback<MouseUpEvent>(evt => evt.StopPropagation());
-
-                subStateContainer.Add(btn);
+                
                 card.Add(subStateContainer);
             }
 
