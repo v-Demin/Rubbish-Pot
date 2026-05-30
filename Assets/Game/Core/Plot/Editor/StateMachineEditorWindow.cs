@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -383,9 +384,16 @@ namespace RubbishPot.Core
         private void SaveData()
         {
             if (_currentAsset == null) return;
+
+            // Перед записью на жесткий диск вытягиваем из UI-нод нижнего окна актуальные экранные позиции
+            if (_bottomGraphView != null)
+            {
+                _bottomGraphView.SyncAllNodePositions();
+            }
+
             EditorUtility.SetDirty(_currentAsset);
             AssetDatabase.SaveAssets();
-            Debug.Log("[Editor] Сценарий успешно сохранен!");
+            Debug.Log("[Editor] Сценарий успешно сохранен, координаты всех нод обновлены!");
         }
     }
 }

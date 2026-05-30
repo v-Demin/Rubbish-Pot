@@ -62,7 +62,24 @@ namespace RubbishPot.Core
 
             bool isDirty = false;
 
-            // Обработка создания связей
+            // ==========================================
+            // 1. ОБРАБОТКА ПЕРЕМЕЩЕНИЯ НОД (Drag мышкой)
+            // ==========================================
+            if (graphViewChange.movedElements != null)
+            {
+                foreach (var element in graphViewChange.movedElements)
+                {
+                    if (element is BaseGraphViewNode node)
+                    {
+                        node.UpdatePosition(); // Принудительно пушим Vector2 в рантайм-ноду
+                        isDirty = true;
+                    }
+                }
+            }
+
+            // ==========================================
+            // 2. ОБРАБОТКА СОЗДАНИЯ СВЯЗЕЙ
+            // ==========================================
             if (graphViewChange.edgesToCreate != null)
             {
                 if (_activeSubState.Edges == null) _activeSubState.Edges = new List<EdgeSaveData>();
@@ -73,30 +90,35 @@ namespace RubbishPot.Core
                         var outPorts = outNode.outputContainer.Query<Port>().ToList();
                         int portIndex = outPorts.IndexOf((Port)edge.output);
 
-                        _activeSubState.Edges.Add(new EdgeSaveData { 
-                            OutputNodeID = outNode.GetRuntimeNode().ID, 
-                            OutputPortIndex = portIndex, 
-                            InputNodeID = inNode.GetRuntimeNode().ID 
+                        _activeSubState.Edges.Add(new EdgeSaveData
+                        {
+                            OutputNodeID = outNode.GetRuntimeNode().ID,
+                            OutputPortIndex = portIndex,
+                            InputNodeID = inNode.GetRuntimeNode().ID
                         });
                         isDirty = true;
                     }
                 }
             }
 
+            // ==========================================
+            // 3. ОБРАБОТКА УДАЛЕНИЯ ЭЛЕМЕНТОВ (НОД И СВЯЗЕЙ)
+            // ==========================================
             if (graphViewChange.elementsToRemove != null)
             {
                 foreach (var element in graphViewChange.elementsToRemove)
                 {
                     // Если это связь — вычищаем её из списка Edges
-                    if (element is Edge edge && edge.output?.node is BaseGraphViewNode outNode && edge.input?.node is BaseGraphViewNode inNode)
+                    if (element is Edge edge && edge.output?.node is BaseGraphViewNode outNode &&
+                        edge.input?.node is BaseGraphViewNode inNode)
                     {
                         var outPorts = outNode.outputContainer.Query<Port>().ToList();
                         int portIndex = outPorts.IndexOf((Port)edge.output);
-            
-                        _activeSubState.Edges?.RemoveAll(e => 
-                                e.OutputNodeID == outNode.GetRuntimeNode().ID && 
-                                e.OutputPortIndex == portIndex && 
-                                e.InputNodeID == inNode.GetRuntimeNode().ID // Вот тут прямое приведение без GetComponent
+
+                        _activeSubState.Edges?.RemoveAll(e =>
+                            e.OutputNodeID == outNode.GetRuntimeNode().ID &&
+                            e.OutputPortIndex == portIndex &&
+                            e.InputNodeID == inNode.GetRuntimeNode().ID
                         );
                         isDirty = true;
                     }
@@ -111,8 +133,27 @@ namespace RubbishPot.Core
                 }
             }
 
-            if (isDirty && Window?.CurrentAsset != null) EditorUtility.SetDirty(Window.CurrentAsset);
+            // ==========================================
+            // 4. МАРКИРОВКА ИЗМЕНЕНИЙ ДЛЯ КНОПКИ SAVE
+            // ==========================================
+            if (isDirty && Window?.CurrentAsset != null)
+            {
+                EditorUtility.SetDirty(Window.CurrentAsset);
+            }
+
             return graphViewChange;
+        }
+        
+        /// <summary>
+        /// Финальный пинок для синхронизации позиций перед сохранением файла ассета
+        /// </summary>
+        public void SyncAllNodePositions()
+        {
+            var uiNodes = nodes.ToList().Cast<BaseGraphViewNode>();
+            foreach (var node in uiNodes)
+            {
+                node.UpdatePosition();
+            }
         }
 
         public void PopulateView(RuntimeSubState subState)

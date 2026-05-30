@@ -95,13 +95,13 @@ MonoBehaviour:
       type: {class: RuntimeExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: 006fff94-3f80-4e7c-991e-b976ecc2a65d
-        Position: {x: 600, y: 200}
+        Position: {x: 1101, y: 228}
         SubCommands: []
     - rid: 6965225380553162902
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: e83bbe18-cc77-4ad8-9ab5-1af4b467c4a5
-        Position: {x: 401, y: 260}
+        Position: {x: 298, y: 228}
         SubCommands:
         - rid: 6965225429692579955
         - rid: 6965225429692579966
@@ -113,7 +113,7 @@ MonoBehaviour:
       type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: 8b9b0b5c-06dc-4eeb-a962-51bf2095e7de
-        Position: {x: 515.9, y: 325}
+        Position: {x: 551, y: 228}
         SubCommands: []
         Choices:
         - "\u041E\u0442\u0432\u0435\u0442 1"
@@ -122,7 +122,7 @@ MonoBehaviour:
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: 55a559c5-2edc-4fab-9ebc-2d092d46cb4b
-        Position: {x: 777, y: 407}
+        Position: {x: 815, y: 290}
         SubCommands:
         - rid: 6965225429692579973
         SpeakerCharacterID: Mercenary
@@ -133,7 +133,7 @@ MonoBehaviour:
       type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: f1d5bdf5-0b7b-4279-8c56-1fb59b3901a0
-        Position: {x: 843, y: 192}
+        Position: {x: 832, y: 131}
         SubCommands:
         - rid: 6965225429692579972
         SpeakerCharacterID: Mercenary
