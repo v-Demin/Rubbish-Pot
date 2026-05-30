@@ -1,11 +1,13 @@
+using UnityEngine;
+
 namespace RubbishPot.Core
 {
     [System.Serializable]
     public class LoadedCharacterData
     {
-        public string CharacterID;
-        public string SelectedVariant;
+        [SerializeField] private string _characterID;
+        [SerializeField] private string _selectedVariant;
 
-        public string FormId() => $"{CharacterID}_{SelectedVariant}";
+        public string FormId() => $"{_characterID}_{_selectedVariant}";
     }
 }

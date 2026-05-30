@@ -113,7 +113,7 @@ namespace RubbishPot.Core
     [System.Serializable]
     public class PlayShowAnimationCommand : ISubCommand
     {
-        [SerializeField] private LoadedCharacterData _characterData;
+        [SerializeField] [CharacterDropdown] private LoadedCharacterData _characterData;
         [SerializeField] private Character.ShowType _showType;
 
         public LoadedCharacterData CharacterInfo => _characterData;
@@ -130,7 +130,7 @@ namespace RubbishPot.Core
     [System.Serializable]
     public class PlayEmotionAnimationCommand : ISubCommand
     {
-        [SerializeField] private LoadedCharacterData _characterData;
+        [SerializeField] [CharacterDropdown] private LoadedCharacterData _characterData;
         [SerializeField] private Character.AnimationState _emotion;
         [SerializeField] private bool _fast = false;
         

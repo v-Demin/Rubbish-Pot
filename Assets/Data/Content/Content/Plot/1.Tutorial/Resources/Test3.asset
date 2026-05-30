@@ -13,63 +13,42 @@ MonoBehaviour:
   m_Name: Test3
   m_EditorClassIdentifier: RubbishPot.Core::RubbishPot.Core.PlotAsset
   Data:
-    Nodes:
-    - rid: 6965225320961278192
-    - rid: 6965225320961278203
-    - rid: 6965225320961278202
-    - rid: 6965225320961278201
-    - rid: 6965225320961278193
-    Edges:
-    - OutputNodeID: 2af47468-8928-46fe-b4fa-751fea839adf
-      InputNodeID: 7b7740af-fb23-4a1a-b51e-03eddb584676
-      PortName: Single
+    GlobalNodes:
+    - rid: 6965225429692580020
+    - rid: 6965225429692580021
+    GlobalEdges:
+    - OutputNodeID: 1a5e0f66-e4a2-4613-987a-8cdc3e7a21ca
+      InputNodeID: 35e7c89b-8333-40f1-9b7e-7bb37de23f17
+      PortName: 
       OutputPortIndex: 0
-    - OutputNodeID: 3ba0b308-9477-4611-9329-02ddd9820f3c
-      InputNodeID: e2135d76-e111-4f0c-a7e2-45e36f917b60
-      PortName: Single
-      OutputPortIndex: 0
-    - OutputNodeID: e2135d76-e111-4f0c-a7e2-45e36f917b60
-      InputNodeID: 2175a955-3fbd-4ef4-99bc-c206ac8352bb
-      PortName: Single
-      OutputPortIndex: 0
-    - OutputNodeID: 2175a955-3fbd-4ef4-99bc-c206ac8352bb
-      InputNodeID: 2af47468-8928-46fe-b4fa-751fea839adf
-      PortName: Single
-      OutputPortIndex: 0
-    - OutputNodeID: 2175a955-3fbd-4ef4-99bc-c206ac8352bb
-      InputNodeID: 2af47468-8928-46fe-b4fa-751fea839adf
-      PortName: Boys next door
-      OutputPortIndex: 1
   references:
     version: 2
     RefIds:
-    - rid: 6965225320961278192
-      type: {class: RuntimeEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+    - rid: 6965225429692580020
+      type: {class: GlobalEntryNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 3ba0b308-9477-4611-9329-02ddd9820f3c
-        Position: {x: 100, y: 200}
-    - rid: 6965225320961278193
-      type: {class: RuntimeExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+        ID: 1a5e0f66-e4a2-4613-987a-8cdc3e7a21ca
+        Position: {x: 0, y: 0}
+        Name: "\u0412\u0445\u043E\u0434"
+        PreloadedCharacters: []
+        PreloadedBackgrounds: []
+        SubStates:
+        - rid: 6965225429692580022
+        ActiveSubStateID: 
+    - rid: 6965225429692580021
+      type: {class: GlobalExitNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 7b7740af-fb23-4a1a-b51e-03eddb584676
-        Position: {x: 1273, y: 200}
-    - rid: 6965225320961278201
-      type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
+        ID: 35e7c89b-8333-40f1-9b7e-7bb37de23f17
+        Position: {x: 0, y: 0}
+        Name: "\u0412\u044B\u0445\u043E\u0434"
+        PreloadedCharacters: []
+        PreloadedBackgrounds: []
+        SubStates: []
+        ActiveSubStateID: 
+    - rid: 6965225429692580022
+      type: {class: BriefingSubState, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
-        ID: 2af47468-8928-46fe-b4fa-751fea839adf
-        Position: {x: 918, y: 200}
-        Text: Time to suck some dick
-    - rid: 6965225320961278202
-      type: {class: RuntimePhraseNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
-      data:
-        ID: e2135d76-e111-4f0c-a7e2-45e36f917b60
-        Position: {x: 249, y: 200}
-        Text: Welcome to the club, buddy
-    - rid: 6965225320961278203
-      type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
-      data:
-        ID: 2175a955-3fbd-4ef4-99bc-c206ac8352bb
-        Position: {x: 571, y: 200}
-        Choices:
-        - 300 bucks is 300 bucks
-        - Boys next door
+        ID: a6ed4dcc-2255-47aa-a830-f6a286102874
+        Name: Briefing
+        Nodes: []
+        Edges: []

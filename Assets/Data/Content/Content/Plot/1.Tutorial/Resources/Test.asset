@@ -31,8 +31,8 @@ MonoBehaviour:
         Position: {x: 0, y: 0}
         Name: "\u0412\u0445\u043E\u0434"
         PreloadedCharacters:
-        - CharacterID: Mercenary
-          SelectedVariant: Default
+        - _characterID: Mercenary
+          _selectedVariant: Default
         PreloadedBackgrounds:
         - Day
         SubStates:
@@ -113,7 +113,7 @@ MonoBehaviour:
       type: {class: RuntimeChoiceNode, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         ID: 8b9b0b5c-06dc-4eeb-a962-51bf2095e7de
-        Position: {x: 542, y: 325}
+        Position: {x: 515.9, y: 325}
         SubCommands: []
         Choices:
         - "\u041E\u0442\u0432\u0435\u0442 1"
@@ -125,7 +125,6 @@ MonoBehaviour:
         Position: {x: 777, y: 407}
         SubCommands:
         - rid: 6965225429692579973
-        - rid: 6965225429692580002
         SpeakerCharacterID: Mercenary
         SpeakerVariant: Default
         ActiveBackgroundVariant: Day
@@ -145,37 +144,30 @@ MonoBehaviour:
       type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         _characterData:
-          CharacterID: Mercenary
-          SelectedVariant: Default
+          _characterID: Mercenary
+          _selectedVariant: Default
         _emotion: 0
         _fast: 1
     - rid: 6965225429692579966
       type: {class: PlayShowAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         _characterData:
-          CharacterID: Mercenary
-          SelectedVariant: Default
+          _characterID: Mercenary
+          _selectedVariant: Default
         _showType: 1
     - rid: 6965225429692579972
       type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         _characterData:
-          CharacterID: Mercenary
-          SelectedVariant: Default
+          _characterID: Mercenary
+          _selectedVariant: Default
         _emotion: 2
         _fast: 0
     - rid: 6965225429692579973
       type: {class: PlayEmotionAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
       data:
         _characterData:
-          CharacterID: Mercenary
-          SelectedVariant: Default
+          _characterID: Mercenary
+          _selectedVariant: Default
         _emotion: 1
         _fast: 0
-    - rid: 6965225429692580002
-      type: {class: PlayShowAnimationCommand, ns: RubbishPot.Core, asm: RubbishPot.Core}
-      data:
-        _characterData:
-          CharacterID: 
-          SelectedVariant: 
-        _showType: 0
